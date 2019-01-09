@@ -3,14 +3,13 @@ Type: Package
 Title: Causal Inference for Latent Processes Network
 Version: 0.2.0
 Date: 2017-04-26
-Author: Bachirou 0. Tadd\'e, C\'ecile Proust-Lima, with contributions of
-        Daniel Commenges and H\'el\`ene Jacqmin-Gadda
+Author: Bachirou 0. Tadd\'e, C\'ecile Proust-Lima
 Maintainer: C\'ecile Proust-Lima <cecile.proust-lima@u-bordeaux.fr>
-Description: Contains functions to fit model for latent processes trajectories and 
+Description: Contains functions to fit a dynamic model for multiple latent processes and estimate 
              their temporal influences. The methodology is based on the combinaison of  
-             linear mixed model for trajectories and system of 
-             differences equations for the temporal influences. 
-             The estimation is made within the maximum likelihood framework.
+             linear mixed model for latent processes trajectories and a system of 
+             differences equations for assessing their temporal influences. 
+             The estimation is done in the maximum likelihood framework.
 License: GPL (>= 2)
 Imports: 
     Rcpp (>= 0.11.0),
