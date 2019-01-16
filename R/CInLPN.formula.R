@@ -70,7 +70,7 @@
 #'               data = data
 #' )
 #' 
-#' summary(mod2)
+#' summary(mod1)
 #' 
 #'  ### example 2
 #'  library(splines)
