@@ -25,5 +25,3 @@ Dependences:
 RoxygenNote: 6.1.1
 LazyData: true
 URL: https://github.com/bachirtadde/CInLPN
-Suggests: 
-    testthat
