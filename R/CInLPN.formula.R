@@ -47,12 +47,35 @@
 #' @export
 #'
 #' @examples
+#'         
 #' ### example 1
+#' library(splines)
+#' Delta <- 1
+#' paras.ini <- NULL
+#' indexparaFixeUser <- c(1,3, 6+c(1, 2, 4, 5, 6, 9))
+#' paraFixeUser <- c(0, 0, 1, 0, 0, 1, 0, 0)
+#' mod <- CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C2 | 1 + C2,
+#'                                  fixed.DeltaLP = L1 | L2  ~ 1 | 1 ,
+#'                                  random.DeltaLP = ~ 1|1,
+#'                                  trans.matrix = ~ 1,
+#'                                  delta.time = Delta),
+#'          measurement.model = list(link.functions = list(links = c(NULL,NULL),
+#'                                                         knots = list(NULL, NULL))),
+#'          
+#'          parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, Fixed.para.values = paraFixeUser),
+#'          option = list(nproc = 1, print.info = T, mekepred = T, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
+#'          Time = "time",
+#'          subject = "id",
+#'          data = data
+#'   )
+#' summary(mod)
+#'     
+#' ### example 2
 #' Delta <- 1
 #' paras.ini <- NULL
 #' indexparaFixeUser <- c(1,4,10+c(1,2,4,5,6,9, 10+c(1:4)))
 #' paraFixeUser <- c(0,0,1,0,0,1,0,0, rep(0,4))
-
+#'
 #' mod <-  CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C1 + C2|1 + C1 + C2,
 #'                                    fixed.DeltaLP = L1 + L2 | L3 ~1 + time|1 + time,
 #'                                    random.DeltaLP = ~ 1|1,
@@ -66,28 +89,8 @@
 #'            subject = "id",
 #'            data = data
 #'          )
-#'          
-#' ### example 2
-#' library(splines)
-#' Delta <- 0.5
-#' paras.ini <- NULL
-#' indexparaFixeUser <- c(1,3, 8+c(1, 2, 4, 5, 6, 9,10+c(2:4,14:16)))
-#' paraFixeUser <- c(0, 0, 1, 0, 0, 1, 0, 0, rep(0,6))
-#' res <- CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C2 | 1 + C2,
-#'                                  fixed.DeltaLP = L1 | L2  ~ 1 + time| 1 + time ,
-#'                                  random.DeltaLP = ~ 1|1,
-#'                                  trans.matrix = ~ 1 + bs(x = time, knots =c(2), intercept = F, degree = 2),
-#'                                  delta.time = Delta),
-#'          measurement.model = list(link.functions = list(links = c(NULL,NULL),
-#'                                                         knots = list(NULL, NULL))),
-#'          
-#'          parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, Fixed.para.values = paraFixeUser),
-#'          option = list(nproc = 2, print.info = T, mekepred = T, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
-#'          Time = "time",
-#'          subject = "id",
-#'          data = data
-#'   )
-#'     
+#'  summary(mod)
+#'
 CInLPN <- function(structural.model, measurement.model, parameters, 
                    option, Time, subject, data,...){
   cl <- match.call()
