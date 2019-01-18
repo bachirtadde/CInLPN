@@ -1,49 +1,69 @@
 #' Causal Inference in a Latent Processes Network
 #' 
-#' This package  estimates trajectories of multivariate latent processes observed through K longitudinal markers (K ≥ D) and
-#' relationships  between latent processes. 
-#' A structural model for processes network is defined for latent processes. This structural model combines 
+#' This function estimates a dynamic model based on D latent processes observed through 
+#' K longitudinal markers (K >= D) which includes temporal relationships between latent processes. 
+#' The structural model for the D latent processes combines a
 #' multivariate linear mixed model and system of difference equations to model trajectories of the processes and 
-#' their temporal influences other time. The temporal influences are captured through a time-depend transition matrix that can be 
-#' adjusted for covariates. Instead of temporal influences, the variance-covariance matrix of random effects on processes can be suitably used to
-#' modeling  (residual) correlations between latent processes.
-#' Longitudinal markers are related to their latent processes through link function, which parameters are estimated simultaneously 
-#' with  those of structural model. The link function can be linear for Gaussien marker or non linear (I-splines basis) for
+#' their temporal influences other time. The temporal influences between processes are captured through a time-dependent transition matrix that can be 
+#' adjusted for covariates. The model includes as a special case, a standard multivariate mixed model in which associations between processes are not 
+#' captured by temporal influences but by correlated random effects.
+#' Longitudinal markers are related to their latent processes through equations of observation that involve parameterized 
+#' link functions (parameters are estimated simultaneously with  those of the structural model). 
+#' The link function can be linear for Gaussian marker or non linear (using a basis of I-splines) for
 #' non Gaussian markers.
-#' All parameters are  estimated simultaneously in a maximum likelihood framework 
+#' All parameters are estimated simultaneously in a maximum likelihood framework 
 #' See the methodological paper available at :http://arxiv.org/abs/1806.03659
 #' 
-#' @param structural.model a list of arguments used to specify the structural model
-#' The structural model contains  five component to specify it.
-#' @param structural.model$fixed.LP0 allow to specify a fixed effects model on the baseline level of processes
-#' Note that there is no need to specify random effect model for the baseline level of processes. As we
-#' set systematicaly an random intercept with variance 1 for identifiability purpose
-#' @param structural.model$fixed.DeltaLP a two-sided linear formula object for specifying the fixed-effects in the linear mixed 
-#' model for initial level of latent processes. The response outcome is on the left of ~ symbol and the covariates are separated by + on the 
-#' right of the ~ symbol. Fo identifiability purposes, the intercept of model are fixed to 0 (not estimated).
-#' @param structural.model$random.DeltaLP allow to specify a random effects model on the processes slopes
-#' @param structural.model$trans.matrix allow to specify a model for element of the transition matrix, which capture 
-#' temporal influences between latent processes.
-#' @param structural.model$delta.time to indicates the discretisation step to be used for latent processes
-#' @param measurement.model a list of arguments used to specify the measurement model
-#' @param measurement.model$link to indicate link to be used to transform markers. Takes values in ("linear", "n-type-d")
-#' where "n" indicates the number of nodes, "type" : takes values in ("quant", "manual", "equi") to indicates how nodes are placed, 
-#' and finaly argument "d" indicates the degre of I-splilnes to be used to construct the link function
-#' @param measurement.model$knots argument to indicate if necessary the place of kodes, default value is NULL
-#' @param parameters a list of arguments about parameters of the models (e.g., initial paremeters, parameters one would like to fix, etc.)
-#' @param parameters$paras.ini to indicates initial values for parameters, default values is NULL
-#' @param parameters$Fixed.para.indix to indicates the position of parameters to be constraint. 
-#' @param parameters$Fixed.para.values to indicates the values associates to the index of parameters to be constraint. 
-#' @param option a list of arguments for optimization purpose
-#' @param option$epsa convergence criteria
-#' @param option$epsb convergence criteria
-#' @param option$epsc convergence criteria
-#' @param option$MCnr number of replik  to compute the predictions in real scales
-#' @param Time name of the covariate representing the time 
-#' @param subject name of the covariate representing the grouping structure
-#' @param data data frame containing the variables named in strutural model, time, subject.
-#'
-#' @return 0
+#' @param structural.model a list of 5 arguments used to specify the structural model: 
+#' 
+#' \code{structural.model$fixed.LP0}{ allows to specify the fixed effects in the submodel for the baseline level of processes.
+#' Note that there is no need to specify a random effect model for the baseline level of processes as we
+#' systematically set a process-specific random intercept (with variance fixed to 1 for identifiability purpose). 
+#' For identifiability purposes, the mean intercepts are fixed to 0 (not estimated).}
+#' 
+#' \code{structural.model$fixed.DeltaLP}{ a two-sided linear formula object for specifying the response outcomes (one the left part of ~ symbol) 
+#' and the covariates with fixed-effects (on the right part of ~ symbol) 
+#' in the submodel for change over time of latent processes.}
+#' 
+#' \code{structural.model$random.DeltaLP}{ allow to specify the random effects in the submodel change over time of latent processes.}
+#' 
+#' \code{structural.model$trans.matrix}{ allow to specify a model for elements of the transition matrix, which captures 
+#' the temporal influences between latent processes.}
+#' 
+#' \code{structural.model$delta.time}{ indicates the discretisation step to be used for latent processes}
+#' 
+#' @param measurement.model is a list of arguments detailed below used to specify the measurement model: 
+#' 
+#' \code{measurement.model$link}{ indicates the link functions to be used to transform the outcomes. 
+#' It takes values in "linear" for a linear transformation and "n-type-d" for a I-splines transformation 
+#' where "n" indicates the number of nodes, "type" (which takes values in "quant", "manual", "equi") indicates 
+#' where the nodes are placed, and "d" indicates the degree of the I-splines.}
+#' 
+#' \code{measurement.model$knots}{ argument indicates if necessary the place of knots (when placed manually with "manual"), 
+#' default value is NULL}
+#' 
+#' @param parameters a list of 3 arguments about parameters of the models (e.g., initial paremeters, parameters one would like to fix, etc.)
+#' 
+#' \code{parameters$paras.ini}{ indicates initial values for parameters, default values is NULL.}
+#' 
+#' \code{parameters$Fixed.para.indix}{ indicates the position of parameters to be constrained.}
+#' 
+#' \code{parameters$Fixed.para.values}{ indicates the values associated to the index of parameters to be constrained. }
+#' 
+#' @param option a list of 4 arguments for the optimization procedure:
+#' 
+#' \code{option$epsa}{ threshold for the convergence criterion on the parameters}
+#' 
+#' \code{option$epsb}{ threshold for the convergence criterion on the likelihood}
+#' 
+#' \code{option$epsc}{ threshold for the convergence criterion on the derivatives}
+#' 
+#' \code{option$MCnr}{ number of replicates  to compute the predictions in the real scales of the outcomes (backward transformation because of the link functions)}
+#' @param Time indicates the name of the covariate representing the time 
+#' @param subject indicates the name of the covariate representing the grouping structure
+#' @param data indicates the data frame containing all the variables for estimating the model.
+#' @param  \dots other optional arguments
+#' @return ---
 #' @export
 #'
 #' @examples
@@ -64,7 +84,7 @@
 #'                                                              knots = list(NULL, NULL))),
 #'               
 #'               parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, Fixed.para.values = paraFixeUser),
-#'               option = list(nproc = 1, print.info = T, mekepred = T, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
+#'               option = list(nproc = 1, print.info = TRUE, mekepred = TRUE, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
 #'               Time = "time",
 #'               subject = "id",
 #'               data = data
@@ -91,7 +111,7 @@
 #'                                                             knots = list(NULL, NULL, NULL))),
 #'              
 #'              parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, Fixed.para.values = paraFixeUser),
-#'              option = list(nproc = 2, print.info = T, mekepred = T, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
+#'              option = list(nproc = 2, print.info = TRUE, mekepred = TRUE, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
 #'              Time = "time",
 #'              subject = "id",
 #'              data = data
@@ -99,23 +119,71 @@
 #'
 #' summary(mod2)
 #'
+#'#' 
+#' \dontrun{
+#' ### example 3
+#' Delta <- 1
+#' paras.ini <- NULL
+#' indexparaFixeUser <- c(1,4,10+c(1,2,4,5,6,9, 10+c(1:4)))
+#' paraFixeUser <- c(0,0,1,0,0,1,0,0, rep(0,4))
+
+#' mod <-  CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C1 + C2|1 + C1 + C2,
+#'                                    fixed.DeltaLP = L1 + L2 | L3 ~1 + time|1 + time,
+#'                                    random.DeltaLP = ~ 1|1,
+#'                                    trans.matrix = ~ 1,
+#'                                    delta.time = Delta),
+#'            measurement.model = list(link.functions = list(links = c("4-equi-2", "linear", "4-equi-2"),
+#'                                                           knots = list(NULL, NULL, NULL))),
+#'            parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, Fixed.para.values = paraFixeUser),
+#'            option = list(nproc = 1, print.info = FALSE, mekepred = TRUE, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-5, epsd = 1e-5),
+#'            Time = "time",
+#'            subject = "id",
+#'            data = data
+#'          )
+#'          
+#' ### example 4
+#' library(splines)
+#' Delta <- 0.5
+#' paras.ini <- NULL
+#' indexparaFixeUser <- c(1,3, 8+c(1, 2, 4, 5, 6, 9,10+c(2:4,14:16)))
+#' paraFixeUser <- c(0, 0, 1, 0, 0, 1, 0, 0, rep(0,6))
+#' res <- CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C2 | 1 + C2,
+#'                                  fixed.DeltaLP = L1 | L2  ~ 1 + time| 1 + time ,
+#'                                  random.DeltaLP = ~ 1|1,
+#'                                  trans.matrix = ~ 1 + bs(x = time, knots =c(2), intercept = F, degree = 2),
+#'                                  delta.time = Delta),
+#'          measurement.model = list(link.functions = list(links = c(NULL,NULL),
+#'                                                         knots = list(NULL, NULL))),
+#'          
+#'          parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, Fixed.para.values = paraFixeUser),
+#'          option = list(nproc = 2, print.info = TRUE, mekepred = TRUE, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
+#'          Time = "time",
+#'          subject = "id",
+#'          data = data
+#'   )
+#'}
+#'       
+
+
+
+
 CInLPN <- function(structural.model, measurement.model, parameters, 
                    option, Time, subject, data,...){
   cl <- match.call()
   ptm <- proc.time()  
-  cat("Be patient, causal Model is running ... \n")
+  cat("Be patient, CInLPN is running ... \n")
   
-  ### check if all component of the model soecification are well filled ####
-  if(missing(structural.model))stop("The argument structural.model must be specified in any model")
-  if(missing(measurement.model))stop("The argument measurement.model must be specified in any model")
-  if(missing(parameters))stop("The argument parameters must be specified in any model")
-  if(missing(subject))stop("The argument subject must be specified in any model")
-  if(missing(Time))stop("The argument time must be specified in any model")
-  if(missing(data))stop("The argument data must be specified in any model")
+  ### check if all component of the model specification are well filled ####
+  if(missing(structural.model))stop("The argument structural.model must be specified")
+  if(missing(measurement.model))stop("The argument measurement.model must be specified")
+  if(missing(parameters))stop("The argument parameters must be specified")
+  if(missing(subject))stop("The argument subject must be specified")
+  if(missing(Time))stop("The argument time must be specified")
+  if(missing(data))stop("The argument data must be specified")
   
-  if(is.null(structural.model$fixed.DeltaLP))stop("The argument structural.model$fixed.DeltaLP must be specified in any model")
-  if(is.null(structural.model$random.DeltaLP))stop("The argument structural.model$random.DeltaLP must be specified in any model")
-  if(is.null(structural.model$trans.matrix))stop("The argument structural.model$trans.matrix must be specified in any model")
+  if(is.null(structural.model$fixed.DeltaLP))stop("The argument structural.model$fixed.DeltaLP must be specified")
+  if(is.null(structural.model$random.DeltaLP))stop("The argument structural.model$random.DeltaLP must be specified")
+  if(is.null(structural.model$trans.matrix))stop("The argument structural.model$trans.matrix must be specified")
   if(is.null(structural.model$delta.time)){
     structural.model$delta.time <- 1
   }
@@ -124,8 +192,8 @@ CInLPN <- function(structural.model, measurement.model, parameters,
     knots <- NULL
     measurement.model$link.functions =list(links = links, knots = knots)
   }
-  if(is.null(parameters$Fixed.para.index))stop("The argument parameters$Fixed.para.index must not be NULL")
-  if(is.null(parameters$Fixed.para.values))stop("The argument parameters$Fixed.para.values must not be NULL")
+  if(is.null(parameters$Fixed.para.index))stop("The argument parameters$Fixed.para.index cannot be NULL")
+  if(is.null(parameters$Fixed.para.values))stop("The argument parameters$Fixed.para.values cannot be NULL")
   
   if(is.null(option$makepred)){
     option$makepred <- TRUE
@@ -187,11 +255,11 @@ CInLPN <- function(structural.model, measurement.model, parameters,
   print.info <- option$print.info
   
   colnames<-colnames(data)
-  # if(missing(DeltaT) || DeltaT < 0 ) stop("DeltaT of the model must not be  null or negative")
-  if(!(subject%in%colnames))stop("Subject should be in colnames")
-  if(!(Time %in% colnames)) stop("time must be set and must be in colonum names of the dataset")
-  if(!all(round((data[,Time]/DeltaT)-round(data[,Time]/DeltaT),8)==0.0))stop(paste("time must be multiple of", DeltaT, sep = " "))
-  if(dim(unique(data))[1] != dim(data)[1]) stop("Some rows are the same in the dataset, Perhaps because of the discretisation step")
+  # if(missing(DeltaT) || DeltaT < 0 ) stop("The discretization step DeltaT cannot be null or negative")
+  if(!(subject%in%colnames))stop("Subject should be in the dataset")
+  if(!(Time %in% colnames)) stop("Time variable should be indicated and should be in the dataset")
+  if(!all(round((data[,Time]/DeltaT)-round(data[,Time]/DeltaT),8)==0.0))stop(paste("Time must be multiple of", DeltaT, sep = " "))
+  if(dim(unique(data))[1] != dim(data)[1]) stop("Some rows are the same in the dataset, perhaps because of a too large discretisation step")
   
   
   #### fixed effects pre-traitement ####
@@ -211,21 +279,21 @@ CInLPN <- function(structural.model, measurement.model, parameters,
     outcomes_n <- strsplit(outcomes_by_LP[n],"[+]")[[1]]
     outcomes_n <-as.character(sapply(outcomes_n,FUN = function(x)gsub("[[:space:]]","",x),simplify = FALSE))
     outcomes_n <- unique(outcomes_n)
-    if(is.null(outcomes_n)) stop("at least one marker must be specified for a latent process" )
+    if(is.null(outcomes_n)) stop("at least one marker must be specified for each latent process" )
     outcomes <- c(outcomes, outcomes_n)
     mapping.to.LP <- c(mapping.to.LP, rep(n,length(outcomes_n)))
   }
-  if(!all(outcomes%in% colnames)) stop("outcomes of the model must be  colname of the data frame")
+  if(!all(outcomes%in% colnames)) stop("outcomes must be in the data")
   K <- length(outcomes)
   all.Y<-seq(1,K)
   
   fixed_DeltaX.model=strsplit(gsub("[[:space:]]","",as.character(fixed_DeltaX)),"~")[[3]]
   fixed_DeltaX.models<-strsplit(fixed_DeltaX.model,"[|]")[[1]]# chaque model d'effet fixe mais en vu de connaitre tous les pred.fixed du modele multi
   
-  if(nD !=length(fixed_DeltaX.models)) stop("There are less/more models than number of latent processes")
+  if(nD !=length(fixed_DeltaX.models)) stop("The number of models does not correspond to the number of latent processes")
   
   if(nD > K){
-    stop("There are more latent processes than markers")
+    stop("There are too many latent processes compared to the indicated number of markers")
   }
   
   ### pre-traitement of fixed effect on initial levels of processes
@@ -261,17 +329,17 @@ CInLPN <- function(structural.model, measurement.model, parameters,
   mod_trans.model=strsplit(gsub("[[:space:]]","",as.character(mod_trans)),"~")[[2]]
   
   if(nD!=length(fixed_X0.models)){
-    stop("Diference between numbers of models for initial latent processes and number of latent processes")
+    stop("The number of models for initial latent processes does not correspond with the number of latent processes")
   }
   if(nD!=length(fixed_DeltaX.models)){
-    stop("Diference between numbers of models for the slope of latent processes and number of latent processes")
+    stop("The number of models for the change over time of latent processes does not correspond with the number of latent processes")
   }
   
   ### traitement of transformation models ##
   if(is.null(link)){
     link <- rep("linear",K)
   }
-  else if(length(link)!=K) stop("number transformation links must be equal to the number of markers")
+  else if(length(link)!=K) stop("The number transformation links must be equal to the number of markers")
   
   #### call of CInLPN.default function to compute estimation and predictions
   est <- CInLPN.default(fixed_X0.models = fixed_X0.models, fixed_DeltaX.models = fixed_DeltaX.models, randoms_X0.models = randoms_X0.models, 
@@ -287,7 +355,7 @@ CInLPN <- function(structural.model, measurement.model, parameters,
   est$mapping.to.LP <- mapping.to.LP
   
   p.time <- proc.time() - ptm
-  cat("The program took :", p.time[1], "\n")
+  cat("The program took:", p.time[1], "\n")
   est
 }
 

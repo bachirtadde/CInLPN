@@ -1,10 +1,12 @@
-#' simulated data to run an exemple
+#' simulated data
 #'
 #' @docType data
 #'
 #' @usage data(data)
 #'
-#'@format A datasets of 3584 observations and 7 variables
+#'@format A dataset of 3584 repeated observations (for X independent subjects) and 7 variables
+#' (id=subject identification number, C1= continuous time-independent covariate, C2=binary time-independent covariate,
+#' time=observation time, L1-L2-L3=3 longitudinal markers)
 #'
 #' @keywords datasets
 #'

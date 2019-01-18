@@ -2,20 +2,22 @@
 % Please edit documentation in R/predict.CInLPN.R
 \name{predict.CInLPN}
 \alias{predict.CInLPN}
-\title{Title}
+\title{Marginal and subject-specific predictions for CInLPN objects}
 \usage{
-\method{predict}{CInLPN}(model, newdata, MCnr = 10, ...)
+\method{predict}{CInLPN}(object, newdata, MCnr = 10, ...)
 }
 \arguments{
-\item{model}{CInLPN object}
+\item{object}{CInLPN object}
 
 \item{newdata}{dataset}
 
-\item{MCnr}{an integer that give number of Monte Carlo iterations}
+\item{MCnr}{an integer that gives the number of Monte Carlo iterations}
+
+\item{\dots}{optional parameters}
 }
 \value{
 list of marginal and subject-specific predictions
 }
 \description{
-Title
+Marginal and subject-specific predictions for CInLPN objects
 }

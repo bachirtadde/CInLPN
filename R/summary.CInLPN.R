@@ -7,7 +7,7 @@ summary.CInLPN <- function(object, ...){
   
   cl <- x$call
   
-  cat("Model fitted by maximum likelihood method", "\n")
+  cat("Model fitted by maximum likelihood", "\n")
   
   cl$B <- NULL
   if(is.data.frame(cl$data))
@@ -47,7 +47,7 @@ summary.CInLPN <- function(object, ...){
   cat("Optimisation process:", "\n")
   
   if(x$conv==1) cat("     Convergence criteria satisfied")
-  if(x$conv==2) cat("     ATTENTION: Maximum number of iteration reached without convergence")
+  if(x$conv==2) cat("     CAUTION: Maximum number of iteration reached without convergence")
   if(x$conv==3) cat("     Convergence with restrained Hessian matrix")
   if(x$conv==4|x$conv==12) {
     cat("     The program stopped abnormally. No results can be displayed.\n")
@@ -88,7 +88,7 @@ summary.CInLPN <- function(object, ...){
                  Wald = tval,
                  p.value = p.value)
     # printCoefmat(cbind(num=seq(from = 1, to = length(x$coefficients), by = 1),round(TAB,4)), P.value=TRUE, has.Pvalue=TRUE)
-    printCoefmat(round(TAB,4), P.value=TRUE, has.Pvalue=TRUE)
+    printCoefmat(round(TAB,4), P.values =TRUE, has.Pvalue=TRUE)
     
   }
 }

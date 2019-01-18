@@ -51,23 +51,26 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
   res$fitted.values <- NULL
   if(makepred & res$conv==1){
     ptm2 <- proc.time() 
-    cat("Be patient, the program is computed the predictions for the observed marker(s) \n")
-    cat("based on Monte Carlo integration and Newton Raphson algorithm for search of inverse of a transformation function \n ")
-    cat(paste("Number on replique for MC integration : N=",MCnr),"\n")
-    cat("Convergence criteria for the seach of inverse : eps=1.e-9 \n")
-    cat("Execution may take a little time because the prediction calculation program is not yet parallelized. Thank you \n")
-    #==================== prédictions =============================
+    cat("Computation of the predictions for the observed marker(s) \n")
+    cat(paste("based on Newton Raphson algorithm (criterion: eps=1.e-9) and Monte Carlo integration with N=",MCnr),"replicates \n")
+    #        cat(    ,"and  for search of inverse of a transformation function \n ")
+    #    cat(paste("Number on replicates for MC integration : N=",MCnr),"\n")
+    #    cat("Convergence criterion for the seach of inverse : eps=1.e-9 \n")
+    cat("Execution may take some time \n ")
+    
+    #================== predictions
+    
     res$Marginal_Predict <- data_F$id_and_Time
     res$SubjectSpecific_Predict <- data_F$id_and_Time
     col <- colnames(res$Marginal_Predict)
     # colSS <- colnames(res$SubjectSpecific_Predict)
     if(requireNamespace("splines2", quietly = TRUE)){
-    Predict <- pred(K = K, nD = nD, mapping = mapping.to.LP, paras = res$coefficients,
-                    m_is= data_F$m_i, Mod_MatrixY = data_F$Mod.MatrixY, df= data_F$df,
-                    x = data_F$x, z = data_F$z, q = data_F$q, nb_paraD = data_F$nb_paraD, x0 = data_F$x0, z0 = data_F$z0,
-                    q0 = data_F$q0, if_link = if_link, tau = data_F$tau,
-                    tau_is=data_F$tau_is, modA_mat = data_F$modA_mat, DeltaT=DeltaT, 
-                    MCnr = MCnr, data_F$minY, data_F$maxY, data_F$knots, data_F$degree, epsPred = 1.e-9)
+      Predict <- pred(K = K, nD = nD, mapping = mapping.to.LP, paras = res$coefficients,
+                      m_is= data_F$m_i, Mod_MatrixY = data_F$Mod.MatrixY, df= data_F$df,
+                      x = data_F$x, z = data_F$z, q = data_F$q, nb_paraD = data_F$nb_paraD, x0 = data_F$x0, z0 = data_F$z0,
+                      q0 = data_F$q0, if_link = if_link, tau = data_F$tau,
+                      tau_is=data_F$tau_is, modA_mat = data_F$modA_mat, DeltaT=DeltaT, 
+                      MCnr = MCnr, data_F$minY, data_F$maxY, data_F$knots, data_F$degree, epsPred = 1.e-9)
     }else{
       stop("Need package MASS to work, Please install it.")
     }
@@ -88,7 +91,7 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
     colnames(res$SubjectSpecific_Predict) <- col
     
     p.time2 <- proc.time() - ptm2
-    cat("Prediction computation take :", p.time2[1], "\n")
+    cat("Prediction computation took:", p.time2[1], "\n")
   }
   
   ## Compute number of parameters  per componante of the processes network

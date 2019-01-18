@@ -21,7 +21,7 @@ CInLPN.estim <- function(K, nD, mapping.to.LP, data, if_link = if_link, DeltaT=1
       est <- temp
     }
   }else{
-    stop("Need package MarqLevAlgParallel to do optimization task")
+    stop("Package MarqLevAlgParallel required for the optimization process")
     
   }
   

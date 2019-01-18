@@ -21,7 +21,7 @@ f.link <- function(outcomes, Y,link=NULL, knots = NULL, na.action = 'na.pass'){
     K <- length(col)
     if(is.null(link)) link <- rep("linear",K)
     if(!is.null(link) && length(gsub("[[:space:]]","",link)) != K){
-      stop("Number of transformation link differ from number of markers")
+      stop("The number of transformation links does not correspond to the number of markers")
     }else{
       link <- gsub("[[:space:]]","",link)
     }
@@ -55,22 +55,22 @@ f.link <- function(outcomes, Y,link=NULL, knots = NULL, na.action = 'na.pass'){
         linkSpe[[k]] <- strsplit(gsub("[[:space:]]","",link[k]),"[-]")[[1]]
         temp <- try( linkSpe[[k]][1] <- as.numeric(linkSpe[[k]][1]),silent = FALSE)
         if(inherits(temp ,'try-error') | temp < 2){
-          stop("for I-splines link function: the first argument of the link function must be a integer greater than 1")
+          stop("for I-splines link function: the first argument must be an integer greater than 1 (number of knots)")
         }
         nknots <- as.numeric(linkSpe[[k]][1])
         
         temp <- try(linkSpe[[k]][3] <- as.numeric(linkSpe[[k]][3]),silent = FALSE)
         if(inherits(temp ,'try-error') | temp < 1){
-          stop("for I-splines link function: the second argument of the link function(i.e. degree of splines)  must be a positif number")
+          stop("for I-splines link function: the second argument  must be a positive integer (degree of splines)")
         }
         degree[k] <- as.numeric(linkSpe[[k]][3])
         
         if(!(linkSpe[[k]][2] %in% c("quant", "manual", "equi"))){
-          stop("the way to specify the knots must be quant, manual or equi")
+          stop("the type of knots must be within: quant, manual or equi")
         }
         if(linkSpe[[k]][2] == "manual" & (is.null(knots[[k]]) | (length(knots[[k]])!=nknots))){
-          stop("When specified the knots manually, the length of knots must match 
-             with the first argument of the link specification")
+          stop("When specified manually, the number of knots must match 
+               the first argument of the link function specification")
         }
         if(linkSpe[[k]][2] == "manual" & (length(knots[[k]])== nknots)){
           min <- min(Y[,col[k]], na.rm = TRUE)
@@ -78,12 +78,12 @@ f.link <- function(outcomes, Y,link=NULL, knots = NULL, na.action = 'na.pass'){
           if( (min > min(knots[[k]])) & (max < max(knots[[k]])))stop("Knots must be in the range of the outcome")
         }
         if(linkSpe[[k]][2] == "equi" & (!is.null(knots[[k]]))){
-          stop("When specified the knots equidistantly, there is no need to specify manually the position of knots")
+          stop("When specified as equidistant, there is no need to specify manually the position of knots")
         }
         
         #
         if(linkSpe[[k]][2] == "quant" & (!is.null(knots[[k]]))){
-          stop("When specified the knots with quantiles, there is no need to specify manually the position of knots")
+          stop("When specified as placed at quantiles, there is no need to specify manually the position of knots")
         }
         if(linkSpe[[k]][2] == "quant" & (is.null(knots[[k]]))){
           knots[[k]] <- as.vector(quantile(Y[,col[k]], probs = seq(from = 0, to = 1, by = 1/(nknots-1)), na.rm = TRUE))
@@ -118,8 +118,8 @@ f.link <- function(outcomes, Y,link=NULL, knots = NULL, na.action = 'na.pass'){
         Mod.MatrixY <- cbind(Mod.MatrixY, IsMat)
         Mod.MatrixYprim <- cbind(Mod.MatrixYprim, MsMat)
         df <-c(df, ncol(IsMat))
-      }
-    }
+        }
+  }
     Mod.MatrixY <- as.matrix(Mod.MatrixY)
     Mod.MatrixYprim <- as.matrix(Mod.MatrixYprim)
     colnames(Mod.MatrixY) <- colnamesY

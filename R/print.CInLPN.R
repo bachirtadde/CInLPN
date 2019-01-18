@@ -7,7 +7,7 @@ print.CInLPN <- function(x, ...){
   
   cl <- x$call
   
-  cat("Model fitted by maximum likelihood method", "\n")
+  cat("Model fitted by maximum likelihood", "\n")
   
   cl$B <- NULL
   if(is.data.frame(cl$data))

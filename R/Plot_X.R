@@ -31,7 +31,7 @@ PlotX <- function(Obs, outcomes, preds, VarTime, with_IC=FALSE, Ylim,  xlab = "T
       lines(y=b_inf, x=(Obs$obs[which(!is.nan(Obs$obs[,outcomes[k]])),1]), type = "b", pch = -1, col =1, lty = 2, lwd=2.5)
       lines(y=b_sup, x=(Obs$obs[which(!is.nan(Obs$obs[,outcomes[k]])),1]), type = "b", pch = -1, col =1, lty = 2, lwd=2.5)
     }
-    #Prédiction
+    #Prediction
     #lines(Pred_mean[which(!is.nan(Obs$obs[,(k+1)])),(k+1)]~Pred_mean$t[which(!is.nan(Obs$obs[,(k+1)]))], type = "l", col ="grey", lty=2, lwd=4) # prediction marginale
     #lines(Pred_mean[which(!is.nan(Obs$obs[,(k+1)])),(k+K+1)]~Pred_mean$t[which(!is.nan(Obs$obs[,(k+1)]))], type = "b", lty=2, col ="grey", lwd=4)
     #     points(Pred_mean[,c(1,(k+1))], pch = 17, col ="grey", lwd=3)

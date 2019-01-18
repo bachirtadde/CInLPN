@@ -1,14 +1,16 @@
-  #' Title
-  #'
-  #' @param model CInLPN object
-  #' @param newdata dataset
-  #' @param MCnr an integer that give number of Monte Carlo iterations
-  #'
-  #' @return list of marginal and subject-specific predictions
-  #' @export
-  #'
+#' Marginal and subject-specific predictions for CInLPN objects
+#'
+#' @param object CInLPN object
+#' @param newdata dataset
+#' @param MCnr an integer that gives the number of Monte Carlo iterations
+#' @param \dots optional parameters
+#'
+#' @return list of marginal and subject-specific predictions
+#' @export
+#'
 
-predict.CInLPN <- function(model, newdata, MCnr = 10,...){
+predict.CInLPN <- function(object, newdata, MCnr = 10,...){
+  model <- object
   cl <- match.call()
   if(missing(model)) stop("The argument model should be specified")
   if(class(model)!="CInLPN") stop("argument model must be a CInLPN object")
@@ -37,10 +39,10 @@ predict.CInLPN <- function(model, newdata, MCnr = 10,...){
   
   colnames<-colnames(newdata)
   # if(missing(DeltaT) || DeltaT < 0 ) stop("DeltaT of the model must not be  null or negative")
-  if(!(subject%in%colnames))stop("Subject should be in colnames")
-  if(!(Time %in% colnames)) stop("time must be set and must be in colonum names of the dataset")
-  if(!all(round((newdata[,Time]/DeltaT)-round(newdata[,Time]/DeltaT),8)==0.0))stop(paste("time must be multiple of", DeltaT, sep = " "))
-  if(dim(unique(newdata))[1] != dim(newdata)[1]) stop("Some rows are the same in the dataset, Perhaps because of the discretisation step")
+  if(!(subject%in%colnames))stop("Subject should be in the data")
+  if(!(Time %in% colnames)) stop("time should be in the data")
+  if(!all(round((newdata[,Time]/DeltaT)-round(newdata[,Time]/DeltaT),8)==0.0))stop(paste("time must be a multiple of", DeltaT, sep = " "))
+  if(dim(unique(newdata))[1] != dim(newdata)[1]) stop("Some rows are the same in the dataset, perhaps because of a too large discretization step")
   
   ### pre-processing of data
   

@@ -19,9 +19,8 @@ NeedsCompilation: yes
 LinkingTo: 
     Rcpp, 
     RcppArmadillo 
-Dependences: 
+Depends: 
     R (>= 3.4.3)
-    marqLevAlgParallel, 
 RoxygenNote: 6.1.1
 LazyData: true
 URL: https://github.com/bachirtadde/CInLPN

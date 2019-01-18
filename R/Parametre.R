@@ -1,11 +1,11 @@
 #=====================================================================================
-# fonction pour la paramétrisation=======================================
+# fonction pour la parametrisation=======================================
 
 Parametre <- function(K, nD, vec_ncol_x0n, n_col_x, nb_RE, stochErr=FALSE, indexparaFixeUser =NULL,
                       paraFixeUser=NULL, L = 1, paras.ini, ncolMod.MatrixY){
   cl <- match.call()
   #   require(MASS)
-  #initialisation des param?tres
+  #initialisation des parametres
   # L = number of parameters for each coefficient a of matrix A
   # K = number of outcomes
   #======================================================================================
@@ -133,7 +133,7 @@ Parametre <- function(K, nD, vec_ncol_x0n, n_col_x, nb_RE, stochErr=FALSE, index
   indexFixe <- indexparaFixeForIden
   if(!is.null(indexparaFixeUser)){
     if(length(indexparaFixeUser) != length(paraFixeUser)){
-      stop("difference between length of paraFixe and indexparaFixe")
+      stop("The length of paraFixe does not correspond with the length of indexparaFixe")
     }
     indexFixe <- sort(unique(c(indexFixe,indexparaFixeUser)))
   }

@@ -1,15 +1,15 @@
 #=========== plot
 Plot_a <- function(recaps.A, with_IC=FALSE, Ylim=c(-2,2), age0, legend, pos.legend, color, xlab ="Time (in year)"){ 
   pas = 0.1
-  Nb.model <- length(recaps.A) ## nombre de modèles
+  Nb.model <- length(recaps.A) ## nombre de modeles
   if(length(age0)==1) age0 <- rep(age0,Nb.model)
   if(length(with_IC)==1) with_IC <- rep(with_IC,Nb.model)
-  if(Nb.model < 1) stop("need at least one model")
+  if(Nb.model < 1) stop("at least one model is needed")
   ## check for convergence of all models
   for(n in 1: Nb.model){
-    if(is.null(recaps.A[[n]]))stop("one of the model(s) don't reach convergence: impossible to plot matrix A")
+    if(is.null(recaps.A[[n]]))stop("one model doesn't reach convergence: impossible to plot matrix A")
   }
-  K <- sqrt(dim(recaps.A[[1]]$matA)[2]) ## nombre de sphères
+  K <- sqrt(dim(recaps.A[[1]]$matA)[2]) ## nombre de spheres
   
   ## cols des graphiques
   cols <-colnames(recaps.A[[1]]$matA)
