@@ -1,9 +1,43 @@
-# default function of CInLPN
+#' Function that start estimation and prediction tasks
+#'
+#' @param fixed_X0.models fixed effects in the submodel for the baseline level of processes
+#' @param fixed_DeltaX.models a two-sided linear formula object for specifying the response outcomes (one the left part of ~ symbol) 
+#' and the covariates with fixed-effects (on the right part of ~ symbol) 
+#' in the submodel for change over time of latent processes
+#' @param randoms_X0.models random effects in the submodel for the baseline level of processes
+#' @param randoms_DeltaX.models random effects in the submodel for change over time of latent processes
+#' @param mod_trans.model model for elements of the temporal transition matrix, which captures 
+#' the temporal influences between latent processes
+#' @param DeltaT indicates the discretization step
+#' @param outcomes indicates names of the outcomes
+#' @param nD number of the latent processes
+#' @param mapping.to.LP indicates which outcome measured which latent process, it is a mapping table between
+#'  outcomes and latents processes
+#' @param link indicates link used to transform outcome
+#' @param knots indicates position of knots used to transform outcomes 
+#' @param subject indicates the name of the covariate representing the grouping structure
+#' @param data indicates the data frame containing all the variables for estimating the model
+#' @param Time indicates the name of the covariate representing the time
+#' @param makepred indicates if predictions in the real scales of outcomes have to be done
+#' @param MCnr number of replicates  to compute the predictions in the real scales of the outcomes
+#' @param paras.ini initial values for parameters, default values is NULL
+#' @param indexparaFixeUser position of parameters to be constrained
+#' @param paraFixeUser values associated to the index of parameters to be constrained
+#' @param maxiter maximum iteration
+#' @param univarmaxiter maximum iteration for estimating univariate model 
+#' @param nproc number of processor to be used for running this package, default value is 1
+#' @param epsa threshold for the convergence criterion on the parameters, default value is 1.e-4
+#' @param epsb threshold for the convergence criterion on the likelihood, default value is 1.e-4
+#' @param epsd threshold for the convergence criterion on the derivatives, default value is 1.e-3
+#' @param print.info  to print information during the liklihood optimization, default value is FALSE 
+#' @param \dots optional parameters
+#'
+#' @return CInLPN object
 CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.models, randoms_DeltaX.models, mod_trans.model, 
                            DeltaT, outcomes, nD, mapping.to.LP, link, knots=NULL, subject, data, Time,
                            makepred, MCnr,
                            paras.ini= NULL, indexparaFixeUser, paraFixeUser, maxiter, univarmaxiter, nproc = 1, 
-                           epsa =0.00001, epsb = 0.00001, epsd= 0.001, print.info = FALSE,...)
+                           epsa =0.0001, epsb = 0.0001, epsd= 0.001, print.info = FALSE, ...)
 {
   cl <- match.call()
   
@@ -70,7 +104,7 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
                       x = data_F$x, z = data_F$z, q = data_F$q, nb_paraD = data_F$nb_paraD, x0 = data_F$x0, z0 = data_F$z0,
                       q0 = data_F$q0, if_link = if_link, tau = data_F$tau,
                       tau_is=data_F$tau_is, modA_mat = data_F$modA_mat, DeltaT=DeltaT, 
-                      MCnr = MCnr, data_F$minY, data_F$maxY, data_F$knots, data_F$degree, epsPred = 1.e-9)
+                      MCnr = MCnr, minY=data_F$minY, maxY=data_F$maxY, knots=data_F$knots, data_F$degree, epsPred = 1.e-9)
     }else{
       stop("Need package MASS to work, Please install it.")
     }

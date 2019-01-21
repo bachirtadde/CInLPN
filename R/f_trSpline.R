@@ -1,4 +1,13 @@
-### An R function that compute  transformaitions  by I-splines basis and their derivates 
+#' Function that compute  transformaitions  by I-splines basis and their derivates
+#'
+#' @param y outcomes in real scales
+#' @param minY minimum of outcome y
+#' @param maxY maximum of outcome y
+#' @param knots indicates position of knots used to transform outcomes
+#' @param degree indicates degree of the basis of splines
+#' @param paras initial values for parameters
+#'
+#' @return a matrix
 
 f_trSpline <- function(y, minY, maxY, knots, degree, paras){
   if(requireNamespace("splines2", quietly = TRUE)){

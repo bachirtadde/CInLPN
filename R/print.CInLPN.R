@@ -1,4 +1,11 @@
 
+#' Print CInLPN object
+#'
+#' @param x an CInLPN object
+#' @param \dots optional parameters
+#'
+#' @return 0
+#' @export
 print.CInLPN <- function(x, ...){
   if (!inherits(x, "CInLPN")) stop("use only with \"CInLPN\" objects")
   

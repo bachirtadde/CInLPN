@@ -333,7 +333,39 @@ arma::mat predi(int K, int nD, arma::mat matrixP, int m_i, arma::vec tau, arma::
 /* ******************************************************
 Predictions for overall individuals
 */
-
+//===========================================================================================
+//' Function that computes the predictions (marginal and subject-specific) for individuals
+//'  
+//' @param K an integer indicating the number of markers
+//' @param nD an integer indicating the number of latent processes
+//' @param mapping indicates which outcome measured which latent process, it is a mapping table between
+//' outcomes and latents processes
+//' @param paras values of model parameters
+//' @param m_is vector of numbers of visit occasions for individuals
+//' @param Mod_MatrixY model.matrix from markers transformation submodels
+//' @param df vector of numbers of parameters for each transformation model
+//' @param nb_paraD number of paramerters of the variance-covariance matrix of random effects
+//' @param x0 model.matrix for baseline's fixed submodel
+//' @param x model.matrix for change's fixed submodel
+//' @param z0 model.matrix for baseline's random effects submodel
+//' @param z model.matrix for change's random effects submodel
+//' @param q0 a vector of number of random effects on each initial latent process level
+//' @param q a vector of number of random effects on each change latent process over time
+//' @param if_link indicates if non linear link is used to transform an outcome
+//' @param tau a vector of integers indicating times (including maximum time)
+//' @param tau_is a vector of integers indicating times for individuals
+//' @param modA_mat model.matrix for elements of the transistion matrix
+//' @param DeltaT double that indicates the discretization step  
+//' @param MCnr an integer that indicates the number of sample for MC method  
+//' @param minY a vector of minima of outcomes
+//' @param maxY a vector of maxima of outcomes
+//' @param knots indicates position of knots used to transform outcomes
+//' @param degree indicates degree of the basis of splines
+//' @param epsPred convergence criteria for prediction using MC method
+//' 
+//' @return a matrix
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat pred(int K, int nD, arma::vec& mapping, arma::vec& paras, arma::vec& m_is,
                arma::mat& Mod_MatrixY, arma::vec df, arma::mat& x, arma::mat& z, arma::vec& q,
@@ -437,5 +469,6 @@ arma::mat pred(int K, int nD, arma::vec& mapping, arma::vec& paras, arma::vec& m
 
     p += m_is[n];
   }
+  
   return(pred_Y);
 }

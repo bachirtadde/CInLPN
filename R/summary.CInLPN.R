@@ -1,3 +1,10 @@
+#' Summary of CInLPN object
+#'
+#' @param object an CInLPN object
+#' @param \dots optional parameters
+#'
+#' @return 0
+#' @export
 summary.CInLPN <- function(object, ...){
   x <- object
   if (!inherits(x, "CInLPN")) stop("use only with \"CInLPN\" objects")

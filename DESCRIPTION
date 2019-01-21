@@ -12,13 +12,15 @@ Description: Contains functions to fit a dynamic model for multiple latent proce
              The estimation is done in the maximum likelihood framework.
 License: GPL (>= 2)
 Imports: 
-    Rcpp (>= 0.11.0),
-    splines2 (>= 0.2.8),
-    MASS
+    Rcpp (>= 0.11.0)
+Suggests:
+    marqLevAlgParallel, 
+    MASS,
+    splines2 (>= 0.2.8)
 NeedsCompilation: yes
 LinkingTo: 
     Rcpp, 
-    RcppArmadillo 
+    RcppArmadillo
 Depends: 
     R (>= 3.4.3)
 RoxygenNote: 6.1.1

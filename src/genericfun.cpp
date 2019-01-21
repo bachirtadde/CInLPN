@@ -56,14 +56,11 @@ arma::mat f_inv_mat(arma::mat& B)
 }
 
 
-//===========================================================================================================
-/* ***********************************
-Function f_vectorize
-Description:
-vectorise a function that vectorise a matrix by row
-
-Dependences: none
-*/
+//======================================================================
+//' Function that vectorises a matrix by rows
+//' 
+//' @param M a matrix
+//' @export
 // [[Rcpp::export]]
 arma::vec vectorise(arma::mat& M){
   int n_c = M.n_cols;
@@ -91,6 +88,13 @@ arma::vec InnerProd(arma::vec v1, arma::vec v2){
 
 
 //===========================================================================================================
+//' Function that creates a K-block diagonal matrix with non diagonal element fixed to 0
+//' 
+//' @param Kvector a vector of length K
+//' 
+//' @return a diagonal matrix
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat KmatDiag(arma::vec& Kvector){
   // Kvector : K-vector of paramters used to construct the matrix Kmat
@@ -102,14 +106,14 @@ arma::mat KmatDiag(arma::vec& Kvector){
 }
 
 
-//===========================================================================================================
-/* *************************************
-Function DparChol
-Description:
-DparChol is a function that computes a symetric D matric from it Cholesky L
-
-Dependance: aucun
-*/
+//'  Function that computes a symetric D matric from it Cholesky L
+//'  
+//' @param q an integer
+//' @param qvector a vector of length q
+//' 
+//' @return a symetric positive define matrix
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat DparChol(int q, arma::vec& qvector){
   // qvector : vecteur de param?tres de taille K pour la construction de la matrice
@@ -129,7 +133,7 @@ arma::mat DparChol(int q, arma::vec& qvector){
 /* ***********************************
 Function aijt
 Description:
-aijt a function that compute the coefficient a_ij of the transition matrix A at time t from
+aijt a function that computes the coefficient a_ij of the transition matrix A at time t from
 model.matrix and vector of parameters
 */
 
@@ -139,16 +143,20 @@ double aijt(int t, arma::vec alpha_ijl,  arma::mat modA_mat){
   double a_ij_t = as_scalar(modA_mat(span(t,t),span(0,modA_mat.n_cols-1))*alpha_ijl);
   return(a_ij_t);
 }
-//===========================================================================================================
 
-/* ***********************************
-Function vecaijt
-Description:
-vecaijt function that computes all coefficient of the transition matrix at time t
 
-Dependances: aijt
-*/
 
+//'  Function that computes all coefficients of the transition matrix at time t
+//'  
+//' @param K an integer representing the size of K*K matrix
+//' @param t an integer indicating the time at which coefficients are computed 
+//' @param modA_mat model.matrix for elements of the transistion matrix  
+//' @param vec_alpha_ij a vector of overall parameters associated to the
+//' model.matrix for elements of the transistion matrix 
+//' 
+//' @return a vector of elements of the transition matrix
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::vec vecaijt( int K, int t, arma::vec& vec_alpha_ij, arma::mat& modA_mat){
   // K = number of outcomes
@@ -166,14 +174,18 @@ arma::vec vecaijt( int K, int t, arma::vec& vec_alpha_ij, arma::mat& modA_mat){
 
 //===========================================================================================================
 
-/* ***********************************
- Function ConstrA
-Description:
- ConstrA function that computes construct the transition matrix at time t
-
-Dependances: vecaijt
-*/
-
+//'  Function that  constructs the transition matrix at time t
+//'  
+//' @param K an integer representing the size of K*K matrix
+//' @param t an integer indicating the time at which coefficients are computed 
+//' @param DeltaT double that indicates the discretization step
+//' @param modA_mat model.matrix for elements of the transistion matrix  
+//' @param vec_alpha_ij a vector of overall parameters associated to the
+//' model.matrix for elements of the transistion matrix 
+//' 
+//' @return Id + DeltaT*A where A is the transition matrix
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat ConstrA(int K, int t, double DeltaT, arma::vec& vec_alpha_ij, arma::mat& modA_mat){
   vec a_ij_t = vecaijt(K, t, vec_alpha_ij, modA_mat);
@@ -190,16 +202,20 @@ arma::mat ConstrA(int K, int t, double DeltaT, arma::vec& vec_alpha_ij, arma::ma
   return(Id + DeltaT*A); // Atild = ((1/DeltaT)*Id + A)
 }
 
-//===========================================================================================================
+//=======================================================================================================
 
-/* ***********************************
-Function GmatA0totaui
-Description:
-GmatA0totaui a function that create a matrix K,K*(max(tau_i)-1) containing  sub-matrices {A(j)}j=0,tau_i-1,
- where j is a discete time
-Dependances: ConstrA
-*/
-
+//'  Function that  creates a matrix K,K*(max(tau_i)-1) containing  sub-matrices {(A_t)}_{t=0,tau_i-1}
+//'  
+//' @param K an integer representing the size of K*K matrix
+//' @param tau_i vector of integers indicating times at which coefficients are computed 
+//' @param DeltaT double that indicates the discretization step
+//' @param modA_mat model.matrix for elements of the transistion matrix  
+//' @param vec_alpha_ij a vector of overall parameters associated to the
+//' model.matrix for elements of the transistion matrix 
+//' 
+//' @return a matrix containing matrix of form Id + DeltaT*A
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat GmatA0totaui(int K, arma::vec& vec_alpha_ij, arma::vec& tau_i, double DeltaT,  arma::mat modA_mat) {
   int siz_tau_i = tau_i.size();
@@ -210,15 +226,22 @@ arma::mat GmatA0totaui(int K, arma::vec& vec_alpha_ij, arma::vec& tau_i, double 
   }
   return (G_mat_A_0_to_tau_i);
 }
-//===========================================================================================================
 
-/* ***********************************
-Function ProdA
-Description:
-ProdA a function that compute the product of A(t) for t1 to t2
-Dependances: ConstrA
-*/
+//=======================================================================================================
 
+//'  Function that  computes the product of A(t) for t1 to t2
+//'  
+//' @param K an integer representing the size of K*K matrix
+//' @param t1 indicates the started discretized time
+//' @param t2 indicates the ended discretized time
+//' @param DeltaT double that indicates the discretization step
+//' @param modA_mat model.matrix for elements of the transistion matrix  
+//' @param vec_alpha_ij a vector of overall parameters associated to the
+//' model.matrix for elements of the transistion matrix 
+//' 
+//' @return a matrix
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat ProdA(int K, int t2, int t1, double DeltaT, arma::vec& vec_alpha_ij, arma::mat& modA_mat){
   // t2 = end time
@@ -230,15 +253,22 @@ arma::mat ProdA(int K, int t2, int t1, double DeltaT, arma::vec& vec_alpha_ij, a
   }
   return(pA);
 }
-//===========================================================================================================
 
-/* ***********************************
-Function GmatprodAstotau
-Description:
-GmatprodAstotau a function taht create a big matrix containing  \Prod{A(j)}j=t_ini,tau.
-Dependances: ProdA
-*/
 
+//===========================================================================================
+//'  Function that  creates a big matrix containing  Prod(A_t)t=t_ini,tau.
+//'  
+//' @param K an integer representing the size of K*K matrix
+//' @param t_ini indicates the started discretized time
+//' @param tau vector of integers indicating times 
+//' @param DeltaT double that indicates the discretization step
+//' @param modA_mat model.matrix for elements of the transistion matrix  
+//' @param vec_alpha_ij a vector of overall parameters associated to the
+//' model.matrix for elements of the transistion matrix 
+//' 
+//' @return a matrix
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat GmatprodAstotau( int K, arma::vec& vec_alpha_ij, arma::vec& tau,
                            int t_ini, double DeltaT, arma::mat modA_mat) {
@@ -252,16 +282,20 @@ arma::mat GmatprodAstotau( int K, arma::vec& vec_alpha_ij, arma::vec& tau,
   }
   return (G_mat_prod_A_s_to_tau);
 }
-//===========================================================================================================
 
-/* ***********************************
-Function tsGmatprodA0totau
-Description:
-tsGmatprodA0totau a function est une fonction pour la cr?ation de  la grosse matrice
-ts_G_mat_prod_A_0_to_tau qui contient tous les produits de A(j) de 0 a tau.
-t est un temps discret
-D?pendance: appel la fonction GmatprodAstotau
-*/
+//===========================================================================================
+//'  Function that  creates a big matrix ts_G_mat_prod_A_0_to_tau containing  Prod(A_t)t=0,tau.
+//'  
+//' @param K an integer representing the size of K*K matrix
+//' @param tau vector of integers indicating times 
+//' @param DeltaT double that indicates the discretization step
+//' @param modA_mat model.matrix for elements of the transistion matrix  
+//' @param vec_alpha_ij a vector of overall parameters associated to the
+//' model.matrix for elements of the transistion matrix 
+//' 
+//' @return a matrix
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat tsGmatprodA0totau(int K, arma::vec& vec_alpha_ij, arma::vec& tau, double DeltaT, arma::mat modA_mat) {
   //Creation of matrix G_mat_prod_A_0_to_tau that contains all products  A(j) from t_j a Tmax: t_j \in 0, Tmax
@@ -305,14 +339,16 @@ arma::mat matHit(arma::vec X_i_t){
   }
   return(H_i_t);
 }
-//===========================================================================================================
-/* ***********************************
-Function compoYiNA
 
-descriptoin: compoYiNA  after vectorising Y_i return
- a vectro indicating missing values : ( 1 = observed value, 0 = missing value)
-Dependances: matNui
-*/
+//===========================================================================================
+//' After vectorising the vzector Yi, this function returns
+//' a vector indicating missing values : 1 = observed value, 0 = missing value
+//' 
+//' @param Yi a matrix with possibly NAs
+//' 
+//' @return a vector of elements 0,1
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::vec compoYiNA(arma::mat& Yi){
   int K = Yi.n_cols;
@@ -329,12 +365,15 @@ arma::vec compoYiNA(arma::mat& Yi){
   }
   return(compo_Yi_NA);
 }
-//===========================================================================================================
-/*Function YiwoNA
-descriptoin: return Yi without NA values (coding missing values)
- Dependences : none
-*/
 
+//===========================================================================================
+//' Function that returns Yi (a vector) without NAs values
+//' 
+//' @param Yi a vector with possibly NAs
+//' 
+//' @return a vector 
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::vec YiwoNA(arma::vec Yi){
   int Ti = Yi.size();
@@ -359,6 +398,22 @@ matNui a function that construct the matrix nu_t_j, the expectation of processes
 Dependance: none
 */
 
+//===========================================================================================
+//'  Function that constructs the matrix nu_t_j, the expectation of the processes at time t_j
+//'  
+//' @param nD an integer indicating the number of processes
+//' @param tau_i vector of integers indicating times 
+//' @param DeltaT double that indicates the discretization step
+//' @param x0i model.matrix for baseline's submodel
+//' @param xi model.matrix for change's submodel
+//' @param alpha_mu0 a vector of parameters associated to the model.matrix for the baseline's submodel
+//' @param alpha_mu a vector of parameters associated to the model.matrix for the change's submodel
+//' @param G_mat_A_0_to_tau_i matrix containing  Prod(A_t)t=0,tau_i where A_t is the transition
+//' matric containing at time t
+//' 
+//' @return a matrix
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat matNui(int nD, arma::vec& tau_i, double DeltaT, arma::mat& x0i, arma::colvec& alpha_mu0,
                  arma::mat& xi, arma::colvec& alpha_mu, arma::mat& G_mat_A_0_to_tau_i){
@@ -391,6 +446,15 @@ Description:
 f_Yi_r_NA_by0 a function that replace NA by 0.0. Just for computatinal need
 Dependences : none
 */
+
+//===========================================================================================
+//' Function that replaces NAs by 0.0 just for computatinal need
+//' 
+//' @param Yi a matrix with possibly NAs
+//' 
+//' @return a matrix 
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat f_Yi_r_NA_by0(arma::mat& Yi){
   int K = Yi.n_cols;
@@ -416,6 +480,27 @@ YiNui a function that compute the difference est une fonction (mat_Yi - mat_Nu_i
 delate missing values (NA) and return a vector
 Dependances: matNui
 */
+
+//===========================================================================================
+//' Function that computes the difference (mat_Yi - mat_Nu_i), delates missing values (NAs) and 
+//' returns a vector. mat_Yi is the outcomes and mat_Nu_i is the expectation
+//'  
+//' @param nD an integer indicating the number of processes
+//' @param matrixP a matrix that matches markers to latent processes
+//' @param tau a vector of integers indicating times 
+//' @param tau_i a vector of integers indicating times for individual i
+//' @param DeltaT double that indicates the discretization step
+//' @param Yi a matrix of the outcomes
+//' @param x0i model.matrix for baseline's submodel
+//' @param xi model.matrix for change's submodel
+//' @param alpha_mu0 a vector of parameters associated to the model.matrix for the baseline's submodel
+//' @param alpha_mu a vector of parameters associated to the model.matrix for the change's submodel
+//' @param G_mat_A_0_to_tau_i matrix containing  Prod(A_t)t=0,tau_i where A_t is the transition
+//' matric containing at time t
+//' 
+//' @return a vector
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::vec YiNui(int nD, arma::mat matrixP, arma::vec& tau, arma::vec& tau_i, double DeltaT, arma::mat& Yi, arma::mat& x0i, arma::colvec& alpha_mu0,
                 arma::mat& xi, arma::colvec& alpha_mu, arma::mat& G_mat_A_0_to_tau_i){
@@ -503,9 +588,17 @@ arma::mat mvnorm(int seed, arma::vec m, arma::mat SD){
 //   return(yi);
 // }
 
-/*================================================================
-Function VecToMat : transforme a vector to a matrix
-==================================================================*/
+
+//===========================================================================================
+//' Function that transforms a vector to a matrix
+//' 
+//' @param y a vector 
+//' @param K an integer indicating the number of columns of the returned matrix
+//' @param m_i an integer indicating the number of rows of the returned matrix
+//' 
+//' @return a matrix 
+//' @export
+//' 
 // [[Rcpp::export]]
 arma::mat VecToMat(arma::vec& y, int K, int m_i){
 

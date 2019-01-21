@@ -1,4 +1,19 @@
 #=========== plot
+#' Plot the temporal infmuences matrix A
+#'
+#' @param recaps.A values of matrix A
+#' @param with_IC indicates if the plot is done with confidence band, default value is FALSE
+#' @param Ylim minimum and maxmum of Y axe
+#' @param age0 indicates baseline age
+#' @param legend indicates a legend
+#' @param pos.legend indicates the legend position
+#' @param color color to be used
+#' @param xlab xlab
+#'
+#' @return ---
+#' @export
+
+
 Plot_a <- function(recaps.A, with_IC=FALSE, Ylim=c(-2,2), age0, legend, pos.legend, color, xlab ="Time (in year)"){ 
   pas = 0.1
   Nb.model <- length(recaps.A) ## nombre de modeles

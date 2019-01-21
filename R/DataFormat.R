@@ -1,6 +1,9 @@
-# =======================================================
-# function that return 1 if all element of a vector is NA
-# =======================================================
+#' function that return 1 if all element of a vector is NA
+#'
+#' @param vec a numerical vector
+#'
+#' @return a vector
+
 is_na_vec <- function(vec){
   cl <- match.call()
   size <- length(t(vec))
@@ -12,6 +15,16 @@ is_na_vec <- function(vec){
 }
 
 ###### link function
+#' Generate model.matrix for transformation of outcomes
+#'
+#' @param outcomes names of the outcomes
+#' @param Y values of the outcomes
+#' @param link indicates link used to transform outcome
+#' @param knots indicates position of knots used to transform outcomes
+#' @param na.action indicates na.action argument
+#'
+#' @return a list
+
 f.link <- function(outcomes, Y,link=NULL, knots = NULL, na.action = 'na.pass'){
   cl <- match.call()
   current.na.action <- options('na.action')
@@ -136,6 +149,26 @@ f.link <- function(outcomes, Y,link=NULL, knots = NULL, na.action = 'na.pass'){
 # create object of type list containing:
 # - design matrix for all sub-models of the  principal model
 #====================================================================================
+#' Function to formated the data
+#'
+#' @param data indicates the data frame containing all the variables for estimating the model
+#' @param subject indicates the name of the covariate representing the grouping structure
+#' @param fixed_X0.models fixed effects in the submodel for the baseline level of processes
+#' @param randoms_X0.models random effects in the submodel for the baseline level of processes
+#' @param fixed_DeltaX.models a two-sided linear formula object for specifying the response outcomes (one the left part of ~ symbol) 
+#' and the covariates with fixed-effects (on the right part of ~ symbol)
+#' @param randoms_DeltaX.models random effects in the submodel for change over time of latent processes
+#' @param mod_trans.model model for elements of the temporal transition matrix, which captures 
+#' the temporal influences between latent processes
+#' @param link indicates link used to transform outcome
+#' @param knots indicates position of knots used to transform outcomes
+#' @param outcomes names of the outcomes
+#' @param nD number of latent processes
+#' @param Time indicates the name of the covariate representing the time
+#' @param DeltaT indicates the discretization step
+#'
+#' @return a list
+
 DataFormat <- function(data, subject, fixed_X0.models , randoms_X0.models , fixed_DeltaX.models, 
                        randoms_DeltaX.models, mod_trans.model, link = NULL, knots = NULL, 
                        outcomes, nD, Time, DeltaT){

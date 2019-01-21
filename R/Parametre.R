@@ -1,6 +1,20 @@
-#=====================================================================================
-# fonction pour la parametrisation=======================================
-
+#' Function to initialize parameters kin multivariate CInLPN model
+#'
+#' @param K number of the markers
+#' @param nD number of the latent processes
+#' @param vec_ncol_x0n vector of number of columns of model.matrix for baseline's submodel
+#' @param n_col_x number of overall columns of model.matrix for change's submodel
+#' @param nb_RE number of random effects
+#' @param stochErr indicates if the structural model contain stochastique components
+#' @param indexparaFixeUser position of parameters to be constrained
+#' @param paraFixeUser values associated to the index of parameters to be constrained
+#' @param L number of columns of model.matrix for temporal infuences model
+#' @param paras.ini initial values for parameters, default values is NULL
+#' @param ncolMod.MatrixY vector of number of columns of model.matrix for transformation submodel
+#'
+#' @return a list
+#' 
+#' 
 Parametre <- function(K, nD, vec_ncol_x0n, n_col_x, nb_RE, stochErr=FALSE, indexparaFixeUser =NULL,
                       paraFixeUser=NULL, L = 1, paras.ini, ncolMod.MatrixY){
   cl <- match.call()
@@ -156,8 +170,35 @@ Parametre <- function(K, nD, vec_ncol_x0n, n_col_x, nb_RE, stochErr=FALSE, index
   return(list(para = paras, paraOpt = paraOpt, paraFixe = paraFixe, posfix = posfix, L = L))
 }
 
-#  Initialisation parameters =============================================
-#-------------------------------
+
+#' Initialisation of parameters
+#'
+#' @param data indicates the data frame containing all the variables for estimating the model
+#' @param outcomes names of the outcomes
+#' @param mapped.to.LP indicates which outcome measured which latent process, it is a mapping table between
+#'  outcomes and latents processes
+#' @param fixed_X0.models fixed effects in the submodel for the baseline level of processes
+#' @param fixed_DeltaX.models a two-sided linear formula object for specifying the response outcomes (one the left part of ~ symbol) 
+#' and the covariates with fixed-effects (on the right part of ~ symbol) 
+#' @param randoms_DeltaX.models random effects in the submodel for change over time of latent processes
+#' @param randoms_X0.models random effects in the submodel for the baseline level of processes
+#' @param nb_RE number of random effects
+#' @param mod_trans.model model for elements of the temporal transition matrix, which captures 
+#' the temporal influences between latent processes
+#' @param subject indicates the name of the covariate representing the grouping structure
+#' @param Time indicates the name of the covariate representing the time
+#' @param link indicates link used to transform outcome
+#' @param knots indicates position of knots used to transform outcomes 
+#' @param DeltaT indicates the discretization step
+#' @param maxiter maximum iteration
+#' @param epsa threshold for the convergence criterion on the parameters, default value is 1.e-4
+#' @param epsb threshold for the convergence criterion on the likelihood, default value is 1.e-4
+#' @param epsd threshold for the convergence criterion on the derivatives, default value is 1.e-3
+#' @param nproc number of processor to be used for running this package
+#' @param print.info  to print information during the liklihood optimization, default value is FALSE
+#'
+#' @return a list
+
 f_paras.ini <- function(data, outcomes, mapped.to.LP, fixed_X0.models, fixed_DeltaX.models, randoms_DeltaX.models, 
                         randoms_X0.models, nb_RE, mod_trans.model, subject, 
                         Time, link, knots, DeltaT, maxiter = 25, epsa = .0001, epsb = .0001,

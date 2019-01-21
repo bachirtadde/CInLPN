@@ -7,9 +7,7 @@
 #'
 #' @return list of marginal and subject-specific predictions
 #' @export
-#'
-
-predict.CInLPN <- function(object, newdata, MCnr = 10,...){
+predict.CInLPN <- function(object, newdata, MCnr = 10, ...){
   model <- object
   cl <- match.call()
   if(missing(model)) stop("The argument model should be specified")

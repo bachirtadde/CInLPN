@@ -1,4 +1,16 @@
-### function to create a matrix of all transition matrix and their standard deviation
+#' Function to create a matrix of all transition matrix and their standard deviation
+#'
+#' @param model the model
+#' @param K number of the outcomes
+#' @param data indicates the data frame 
+#' @param ind indicates the order (rank) of the indivudal
+#' @param DeltaT indicates the discretization step
+#' @param ind_parafixA position of matrix A parameters to be constrained
+#' @param val_parafixA values associated to the index of parameters of the matrix A to be constrained
+#'
+#' @return a list
+#' @export
+#' 
 mat_trans <- function(model, K, data, ind, DeltaT, ind_parafixA, val_parafixA){
   cl <- match.call()
   

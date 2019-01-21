@@ -1,3 +1,14 @@
+#' Multiple Wald test
+#'
+#' @param v vaiance-covariance matrix elements
+#' @param beta estimates values
+#' @param pos position of the parameters to test
+#' @param matR indicates how to combine paerameters for the global test
+#' @param value values of the right hand of test
+#'
+#' @return p-value
+#' @export
+
 WaldMult <- function( v,beta,pos,matR, value){
   # Compute variance-covariance matrix of estimates parameters====
   # v = vector of all unique element to create the symetric matric
@@ -5,17 +16,10 @@ WaldMult <- function( v,beta,pos,matR, value){
   var_cov <- matrix(0,nrow=m,ncol=m)
   var_cov[upper.tri(var_cov,diag=TRUE)] <- v
   var_cov[lower.tri(var_cov,diag=FALSE)] <- t(var_cov)[lower.tri(var_cov,diag=FALSE)]
-  
- 
   Mat <- matrix(0,nrow=length(pos),ncol=length(pos))
-  
   Mat <- matR%*%var_cov[pos,pos]%*%t(matR)
-  
-
   Vect <- matR%*%beta[pos]-value
-  
   Wald <- t(Vect)%*%solve(Mat)%*%Vect
-  
   # degre of freedom
   ddl <- length(pos)
   # Pvalue

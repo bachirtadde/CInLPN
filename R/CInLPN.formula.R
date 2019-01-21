@@ -25,7 +25,7 @@
 #' and the covariates with fixed-effects (on the right part of ~ symbol) 
 #' in the submodel for change over time of latent processes.}
 #' 
-#' \code{structural.model$random.DeltaLP}{ allow to specify the random effects in the submodel change over time of latent processes.}
+#' \code{structural.model$random.DeltaLP}{ allow to specify the random effects in the submodel for change over time of latent processes.}
 #' 
 #' \code{structural.model$trans.matrix}{ allow to specify a model for elements of the transition matrix, which captures 
 #' the temporal influences between latent processes.}
@@ -46,7 +46,7 @@
 #' 
 #' \code{parameters$paras.ini}{ indicates initial values for parameters, default values is NULL.}
 #' 
-#' \code{parameters$Fixed.para.indix}{ indicates the position of parameters to be constrained.}
+#' \code{parameters$Fixed.para.indix}{ indicates the positions of parameters to be constrained.}
 #' 
 #' \code{parameters$Fixed.para.values}{ indicates the values associated to the index of parameters to be constrained. }
 #' 
@@ -69,6 +69,7 @@
 #' @examples
 #'         
 #' ### example 1
+#' library(marqLevAlgParallel)
 #' Delta <- 1
 #' paras.ini <- c(0.000, 0.059, 0.000, 0.163, -0.050, -0.153, 1.000, 0.000, 0.322, 0.000, 1.000, 
 #'                0.000, 0.077, 0.139, 0.000, 0.177, -0.354, 0.114, 0.116, -0.090, 0.287, 0.554,
@@ -83,8 +84,10 @@
 #'               measurement.model = list(link.functions = list(links = c(NULL,NULL),
 #'                                                              knots = list(NULL, NULL))),
 #'               
-#'               parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, Fixed.para.values = paraFixeUser),
-#'               option = list(nproc = 1, print.info = TRUE, mekepred = TRUE, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
+#'               parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
+#'                                 Fixed.para.values = paraFixeUser),
+#'               option = list(nproc = 1, print.info = TRUE, mekepred = TRUE, MCnr = 10, 
+#'                             univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
 #'               Time = "time",
 #'               subject = "id",
 #'               data = data
@@ -94,6 +97,7 @@
 #' 
 #'  ### example 2
 #'  library(splines)
+#' library(marqLevAlgParallel)
 #'  Delta <- 0.5
 #'  paras.ini <- c(0.000,0.065, 0.000, 0.168, -0.054, 0.000, -0.119, -0.009, 1.000, 0.000,
 #'                 0.473, 0.000, 1.000, 0.000, 0.057, -0.182, 0.000, 0.174, -0.523, 0.000,
@@ -103,15 +107,18 @@
 #' indexparaFixeUser <- c(1,3, 8+c(1, 2, 4, 5, 6, 9,10+c(2:4,14:16)))
 #' paraFixeUser <- c(0, 0, 1, 0, 0, 1, 0, 0, rep(0,6))
 #' mod2 <- CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C2 | 1 + C2,
-#'                                      fixed.DeltaLP = L1 + L2| L3  ~ 1 + time| 1 + time ,
+#'                                      fixed.DeltaLP = L1 + L2| L3  ~ 1 + time| 1 + time,
 #'                                      random.DeltaLP = ~ 1|1,
-#'                                      trans.matrix = ~ 1 + bs(x = time, knots =c(2), intercept = F, degree = 2),
+#'                                      trans.matrix = ~ 1 + bs(x = time, knots =c(2), 
+#'                                                              intercept = F, degree = 2),
 #'                                      delta.time = Delta),
 #'              measurement.model = list(link.functions = list(links = c(NULL,NULL, NULL),
 #'                                                             knots = list(NULL, NULL, NULL))),
 #'              
-#'              parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, Fixed.para.values = paraFixeUser),
-#'              option = list(nproc = 2, print.info = TRUE, mekepred = TRUE, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
+#'              parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
+#'                                Fixed.para.values = paraFixeUser),
+#'              option = list(nproc = 2, print.info = TRUE, mekepred = TRUE, MCnr = 10, 
+#'                            univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
 #'              Time = "time",
 #'              subject = "id",
 #'              data = data
@@ -122,6 +129,7 @@
 #'#' 
 #' \dontrun{
 #' ### example 3
+#' library(marqLevAlgParallel)
 #' Delta <- 1
 #' paras.ini <- NULL
 #' indexparaFixeUser <- c(1,4,10+c(1,2,4,5,6,9, 10+c(1:4)))
@@ -132,10 +140,13 @@
 #'                                    random.DeltaLP = ~ 1|1,
 #'                                    trans.matrix = ~ 1,
 #'                                    delta.time = Delta),
-#'            measurement.model = list(link.functions = list(links = c("4-equi-2", "linear", "4-equi-2"),
+#'            measurement.model = list(link.functions = list(links = c("4-equi-2", "linear",
+#'                                                                     "4-equi-2"),
 #'                                                           knots = list(NULL, NULL, NULL))),
-#'            parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, Fixed.para.values = paraFixeUser),
-#'            option = list(nproc = 1, print.info = FALSE, mekepred = TRUE, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-5, epsd = 1e-5),
+#'            parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
+#'                              Fixed.para.values = paraFixeUser),
+#'            option = list(nproc = 1, print.info = FALSE, mekepred = TRUE, MCnr = 10, 
+#'                          univarmaxiter = 7, epsa = 1e-5, epsb = 1e-5, epsd = 1e-5),
 #'            Time = "time",
 #'            subject = "id",
 #'            data = data
@@ -143,28 +154,30 @@
 #'          
 #' ### example 4
 #' library(splines)
+#' library(marqLevAlgParallel)
 #' Delta <- 0.5
 #' paras.ini <- NULL
 #' indexparaFixeUser <- c(1,3, 8+c(1, 2, 4, 5, 6, 9,10+c(2:4,14:16)))
 #' paraFixeUser <- c(0, 0, 1, 0, 0, 1, 0, 0, rep(0,6))
 #' res <- CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C2 | 1 + C2,
-#'                                  fixed.DeltaLP = L1 | L2  ~ 1 + time| 1 + time ,
+#'                                  fixed.DeltaLP = L1 | L2  ~ 1 + time| 1 + time,
 #'                                  random.DeltaLP = ~ 1|1,
-#'                                  trans.matrix = ~ 1 + bs(x = time, knots =c(2), intercept = F, degree = 2),
+#'                                  trans.matrix = ~ 1 + bs(x = time, knots =c(2), 
+#'                                                          intercept = F, degree = 2),
 #'                                  delta.time = Delta),
 #'          measurement.model = list(link.functions = list(links = c(NULL,NULL),
 #'                                                         knots = list(NULL, NULL))),
 #'          
-#'          parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, Fixed.para.values = paraFixeUser),
-#'          option = list(nproc = 2, print.info = TRUE, mekepred = TRUE, MCnr = 10, univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
+#'          parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
+#'                            Fixed.para.values = paraFixeUser),
+#'          option = list(nproc = 2, print.info = TRUE, mekepred = TRUE, MCnr = 10, 
+#'                        univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
 #'          Time = "time",
 #'          subject = "id",
 #'          data = data
 #'   )
 #'}
 #'       
-
-
 
 
 CInLPN <- function(structural.model, measurement.model, parameters, 

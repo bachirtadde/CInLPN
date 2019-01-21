@@ -1,4 +1,21 @@
 #==================================================================================================
+#' Function to plot trajectories of observation and their predictions
+#'
+#' @param Obs Observations
+#' @param outcomes names of outcomes
+#' @param preds indicates predictions
+#' @param VarTime indicates the name of the covariate representing the time
+#' @param with_IC indicates if the plot is done with confidence band, default value is FALSE
+#' @param Ylim minimum and maxmum of Y axe
+#' @param xlab xlab
+#' @param ylab ylab
+#' @param age0 indicates baseline age
+#' @param Title Titles for the plots
+#'
+#' @return ---
+#' @export
+
+
 PlotX <- function(Obs, outcomes, preds, VarTime, with_IC=FALSE, Ylim,  xlab = "Time", ylab = "Score", age0=0, Title){
   # k designe le marqueur 
   K <- length(outcomes)

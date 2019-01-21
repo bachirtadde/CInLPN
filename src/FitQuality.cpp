@@ -73,9 +73,11 @@ arma::mat G_mat_prod_A_0_to_tau, double DeltaT){
 
 //==============================================================================================================================
 /* for overall individuals
-*/
 
 // [[Rcpp::export]]
+
+*/
+
 arma::mat autocorr(int K, arma::vec paraOpt, arma::vec paraFixe, arma::vec posfix, int ncol_x,
 int ncol_x0, arma::mat zi, arma::vec q, int nb_paraD, arma::mat z0i, arma::vec q0,
 arma::vec tau, arma::mat modA_mat_i, double DeltaT){

@@ -1,4 +1,23 @@
 #step 1  root computation of estimation
+#' Title
+#'
+#' @param K number of outcomes
+#' @param nD number of latent processes
+#' @param mapping.to.LP indicates which outcome measured which latent process, it is a mapping table between
+#'  outcomes and latents processes
+#' @param data indicates the data frame containing all the variables for estimating the model
+#' @param if_link indicates if non linear link is used to transform an outcome
+#' @param DeltaT indicates the discretization step
+#' @param paras initial values for parameters
+#' @param maxiter maximum iteration
+#' @param nproc number of processor to be used for running this package, default value is 1
+#' @param epsa threshold for the convergence criterion on the parameters, default value is 1.e-4
+#' @param epsb threshold for the convergence criterion on the likelihood, default value is 1.e-4
+#' @param epsd threshold for the convergence criterion on the derivatives, default value is 1.e-3
+#' @param print.info to print information during the liklihood optimization, default value is FALSE
+#'
+#' @return CInLPN object
+
 CInLPN.estim <- function(K, nD, mapping.to.LP, data, if_link = if_link, DeltaT=1.0, paras, 
                          maxiter = 500, nproc = 1, epsa =0.0001, epsb = 0.0001,epsd= 0.001, print.info = FALSE){
   cl <- match.call()
