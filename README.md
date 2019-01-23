@@ -1,1 +1,0 @@
-[![Travis build status](https://travis-ci.org/bachirtadde/CInLPN.svg?branch=master)](https://travis-ci.org/bachirtadde/CInLPN)
