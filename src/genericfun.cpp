@@ -9,26 +9,26 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
-//===========================================================================================================
-//function print matrix
-int f_mat_print( arma::mat& B)
-{
-  int J = B.n_cols;
-  int I = B.n_rows;
-  printf("\n \n===========================\n affichage de la matrice\n============================\n \n");
-  printf(" dimension ::::%d * %d\n\n", I,J);
-  for(int i =0; i<I; i++)
-  {
-    printf("| ");
-    for(int j =0; j<J; j++)
-    {
-      printf("%.4f ",B(i,j));
-    }
-    printf("| \n");
-  }
-  printf("\n \n===========================\n fin de l'affichage\n============================\n \n");
-  return 1;
-}
+// //===========================================================================================================
+// //function print matrix
+// int f_mat_print( arma::mat& B)
+// {
+//   int J = B.n_cols;
+//   int I = B.n_rows;
+//   printf("\n \n===========================\n affichage de la matrice\n============================\n \n");
+//   printf(" dimension ::::%d * %d\n\n", I,J);
+//   for(int i =0; i<I; i++)
+//   {
+//     printf("| ");
+//     for(int j =0; j<J; j++)
+//     {
+//       printf("%.4f ",B(i,j));
+//     }
+//     printf("| \n");
+//   }
+//   printf("\n \n===========================\n fin de l'affichage\n============================\n \n");
+//   return 1;
+// }
 
 //===========================================================================================================
 // function to test if a matrix is inversible
@@ -44,12 +44,12 @@ arma::mat f_inv_mat(arma::mat& B)
   }
   catch(const std::runtime_error& e){
     g=1;
-    printf("Matrix B is not inversible : %d \n", g);
+    // printf("Matrix B is not inversible : %d \n", g);
     C = zeros(B.n_cols,B.n_cols);
   }
   //   f_mat_print(C);
   if(g==1){
-    printf("Matrix B is not inversible : %d \n", g);
+    // printf("Matrix B is not inversible : %d \n", g);
   }
 
   return (C);

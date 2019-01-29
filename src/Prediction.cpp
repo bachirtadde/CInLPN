@@ -288,7 +288,7 @@ arma::mat predi(int K, int nD, arma::mat matrixP, int m_i, arma::vec tau, arma::
     }
     predMyi = predMyi+yMn0;
     predSSyi = predSSyi+ySSn0;
-    if(itr ==10000){ printf("Warnings!!! \n Maximun of iterations (10000) reached without convergence during inverse computing with Newton Raphson algorithm \n");}
+    // if(itr ==10000){ printf("Warnings!!! \n Maximun of iterations (10000) reached without convergence during inverse computing with Newton Raphson algorithm \n");}
   }
   predMyi = predMyi/MCnr;
   predSSyi = predSSyi/MCnr;//============= end invertion by NR======================================================
