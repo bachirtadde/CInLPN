@@ -17,6 +17,7 @@ Suggests:
     marqLevAlgParallel, 
     MASS,
     splines2 (>= 0.2.8)
+Additional_repositories: https://github.com/VivianePhilipps/marqLevAlgParallel
 NeedsCompilation: yes
 LinkingTo: 
     Rcpp, 

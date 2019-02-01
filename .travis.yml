@@ -4,5 +4,5 @@ language: R
 sudo: false
 before_install:
   - Rscript -e 'install.packages("devtools")'
-  - Rscript -e 'devtools::install_github("vivianephilipps/marqLevAlgParallel")'
+#  - Rscript -e 'devtools::install_github("vivianephilipps/marqLevAlgParallel")'
 cache: packages
