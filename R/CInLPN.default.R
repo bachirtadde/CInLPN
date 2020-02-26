@@ -184,7 +184,7 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
   
   res$loglik <- est$fn.value
   res$AIC <- -2*est$fn.value + 2*length(est$b)
-  res$BIC <- -2*est$fn.value + log(res$N)*length(est$b)
+  res$BIC <- -2*est$fn.value + log(res$nb_subject)*length(est$b)
   
   
   ##output related to the iteration process
