@@ -83,7 +83,6 @@ See the methodological paper available at :http://arxiv.org/abs/1806.03659
 \examples{
         
 ### example 1
-library(marqLevAlgParallel)
 Delta <- 1
 paras.ini <- c(0.000, 0.059, 0.000, 0.163, -0.050, -0.153, 1.000, 0.000, 0.322, 0.000, 1.000, 
                0.000, 0.077, 0.139, 0.000, 0.177, -0.354, 0.114, 0.116, -0.090, 0.287, 0.554,
@@ -111,7 +110,6 @@ summary(mod1)
 
  ### example 2
  library(splines)
-library(marqLevAlgParallel)
  Delta <- 0.5
  paras.ini <- c(0.000,0.065, 0.000, 0.168, -0.054, 0.000, -0.119, -0.009, 1.000, 0.000,
                 0.473, 0.000, 1.000, 0.000, 0.057, -0.182, 0.000, 0.174, -0.523, 0.000,
@@ -143,7 +141,6 @@ summary(mod2)
 #' 
 \dontrun{
 ### example 3
-library(marqLevAlgParallel)
 Delta <- 1
 paras.ini <- NULL
 indexparaFixeUser <- c(1,4,10+c(1,2,4,5,6,9, 10+c(1:4)))
@@ -167,7 +164,6 @@ mod <-  CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C1 + C2|1 + C1 + C2,
          
 ### example 4
 library(splines)
-library(marqLevAlgParallel)
 Delta <- 0.5
 paras.ini <- NULL
 indexparaFixeUser <- c(1,3, 8+c(1, 2, 4, 5, 6, 9,10+c(2:4,14:16)))

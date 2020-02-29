@@ -23,9 +23,9 @@ CInLPN.estim <- function(K, nD, mapping.to.LP, data, if_link = if_link, DeltaT=1
   cl <- match.call()
   #  non parall Optimisation 
   # package loading
-  if(requireNamespace("marqLevAlgParallel", quietly = TRUE)){
-    temp <- try(marqLevAlgParallel::marqLevAlg(b = paras$paraOpt, fn = Loglik, nproc = nproc, .packages = NULL, epsa=epsa, epsb=epsb, epsd=epsd,
-                           maxiter=maxiter, print.info = print.info, 
+  # if(requireNamespace("marqLevAlgParallel", quietly = TRUE)){
+    temp <- try(marqLevAlg(b = paras$paraOpt, fn = Loglik, nproc = nproc, .packages = NULL, epsa=epsa, epsb=epsb, epsd=epsd,
+                           maxiter=maxiter, print.info = print.info, minimize = FALSE,
                            DeltaT=DeltaT, paraFixe = paras$paraFixe, posfix = paras$posfix,
                            K = K, nD = nD, mapping =  mapping.to.LP, m_is = data$m_i, if_link = if_link,
                            Mod_MatrixY = data$Mod.MatrixY, Mod_MatrixYprim = data$Mod.MatrixYprim, df=data$df,
@@ -39,10 +39,10 @@ CInLPN.estim <- function(K, nD, mapping.to.LP, data, if_link = if_link, DeltaT=1
     }else{
       est <- temp
     }
-  }else{
-    stop("Package MarqLevAlgParallel required for the optimization process")
-    
-  }
+  # }else{
+  #   stop("Package MarqLevAlgParallel required for the optimization process")
+  #   
+  # }
   
   # (res <- Loglik(paraOpt = paras$paraOpt, DeltaT=DeltaT, paraFixe = paras$paraFixe, posfix = paras$posfix,
   #                K = K, nD = nD, mapping = mapping.to.LP, m_is = data$m_i, if_link = if_link,

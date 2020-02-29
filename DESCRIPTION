@@ -1,8 +1,8 @@
 Package: CInLPN
 Type: Package
 Title: Causal Inference for Latent Processes Network
-Version: 0.2.0
-Date: 2017-04-26
+Version: 0.2.1
+Date: 2020-02-27
 Author: Bachirou 0. Tadd\'e, C\'ecile Proust-Lima
 Maintainer: C\'ecile Proust-Lima <cecile.proust-lima@u-bordeaux.fr>
 Description: Contains functions to fit a dynamic model for multiple latent processes and estimate 
@@ -11,10 +11,11 @@ Description: Contains functions to fit a dynamic model for multiple latent proce
              differences equations for assessing their temporal influences. 
              The estimation is done in the maximum likelihood framework.
 License: GPL (>= 2)
+Encoding: UTF-8
 Imports: 
-    Rcpp (>= 0.11.0)
+    Rcpp (>= 0.11.0),
+    marqLevAlg
 Suggests:
-    marqLevAlgParallel, 
     MASS,
     splines2 (>= 0.2.8)
 NeedsCompilation: yes
@@ -22,7 +23,7 @@ LinkingTo:
     Rcpp, 
     RcppArmadillo
 Depends: 
-    R (>= 3.4.3)
+    R (>= 3.4.0)
 RoxygenNote: 6.1.1
 LazyData: true
 URL: https://github.com/bachirtadde/CInLPN
