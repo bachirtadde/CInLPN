@@ -10,9 +10,9 @@ using namespace arma;
 using namespace std;
 
 /*
-Individual prediction
+Individual fits
 */
-arma::mat predi(int K, int nD, arma::mat matrixP, int m_i, arma::vec tau, arma::vec tau_i, arma::mat Ytild_i,
+arma::mat fit_i(int K, int nD, arma::mat matrixP, int m_i, arma::vec tau, arma::vec tau_i, arma::mat Ytild_i,
                 arma::mat x0i, arma::mat z0i, arma::mat xi, arma::mat zi, arma::colvec alpha_mu0,
                 arma::colvec alpha_mu, arma::mat matDw, arma::mat matDw_u, arma::mat matDu,
                 arma::mat Sig, arma::mat& G_mat_A_0_to_tau_i, arma::mat& G_mat_prod_A_0_to_tau, double DeltaT,
@@ -287,8 +287,14 @@ arma::mat predi(int K, int nD, arma::mat matrixP, int m_i, arma::vec tau, arma::
       vec ySSn1 = vectorise(mat_ySSn1);
       eps_nM = as_scalar((yMn1-yMn0).t()*(yMn1-yMn0));
       eps_nSS = as_scalar((ySSn1-ySSn0).t()*(ySSn1-ySSn0));
+      
+      mat_yMn0 = mat_yMn1;
       yMn0 = yMn1;
+      
+      mat_ySSn0 = mat_ySSn1;
       ySSn0 = ySSn1;
+      
+      
       itr +=1; // incrementing iteration
     }
     predMyi = predMyi+yMn0;
@@ -336,10 +342,13 @@ arma::mat predi(int K, int nD, arma::mat matrixP, int m_i, arma::vec tau, arma::
 
 //==============================================================================================================================
 /* ******************************************************
-Predictions for overall individuals
+Fits values for overall individuals
 */
 //===========================================================================================
-//' Function that computes the predictions (marginal and subject-specific) for individuals
+//' Function that computes the fits (marginal and subject-specific) for individuals. That is 
+//' observations are available and from them, fits will be compute from the model. The difference 
+//' between fits and predictions is that, for predictions there is no observation where as for 
+//' fit observations are available.
 //'  
 //' @param K an integer indicating the number of markers
 //' @param nD an integer indicating the number of latent processes
@@ -372,7 +381,7 @@ Predictions for overall individuals
 //' @export
 //' 
 // [[Rcpp::export]]
-arma::mat pred(int K, int nD, arma::vec& mapping, arma::vec& paras, arma::vec& m_is,
+arma::mat fit(int K, int nD, arma::vec& mapping, arma::vec& paras, arma::vec& m_is,
                arma::mat& Mod_MatrixY, arma::vec df, arma::mat& x, arma::mat& z, arma::vec& q,
                int nb_paraD, arma::mat& x0, arma::mat& z0, arma::vec& q0, arma::vec if_link, arma::vec tau,
                arma::vec& tau_is, arma::mat& modA_mat, double DeltaT, int MCnr, arma::vec minY, arma::vec maxY,
@@ -466,7 +475,7 @@ arma::mat pred(int K, int nD, arma::vec& mapping, arma::vec& paras, arma::vec& m
     mat G_mat_prod_A_0_to_tau = GmatprodAstotau(nD, vec_alpha_ij, tau, 0, DeltaT, modA_mat(span(n*m,((n+1)*m-1)), span(0,(L-1))));
     mat G_mat_A_0_to_tau_i = GmatA0totaui(nD, vec_alpha_ij, tau, DeltaT, modA_mat(span(n*m,((n+1)*m-1)), span(0,(L-1))));
 
-    pred_Y.rows(p,(p+m_is[n]-1)) = predi(K, nD, matrixP, m_is(n), tau, tau_is(span(p,(p+m_is(n)-1))), Ytild(span(p,(p+m_is(n)-1)), span(0,(K-1))),
+    pred_Y.rows(p,(p+m_is[n]-1)) = fit_i(K, nD, matrixP, m_is(n), tau, tau_is(span(p,(p+m_is(n)-1))), Ytild(span(p,(p+m_is(n)-1)), span(0,(K-1))),
                 x0(span(n*nD,(n+1)*nD-1), span(0,(ncol_x0-1))), z0(span(n*nD,(n+1)*nD-1), span(0,(ncol_z0-1))),
                 x(span(n*nD*m,((n+1)*nD*m-1)), span(0,(ncol_x-1))), z(span(n*nD*m,((n+1)*nD*m-1)), span(0,(ncol_z-1))),
                 alpha_mu0, alpha_mu, matDw, matDw_u, matDu, Sig, G_mat_A_0_to_tau_i, G_mat_prod_A_0_to_tau, DeltaT,
