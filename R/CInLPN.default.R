@@ -92,14 +92,14 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
     #    cat("Convergence criterion for the seach of inverse : eps=1.e-9 \n")
     cat("Execution may take some time \n ")
     
-    #================== predictions
+    #================== predictions on the same data
     
     res$Marginal_Predict <- data_F$id_and_Time
     res$SubjectSpecific_Predict <- data_F$id_and_Time
     col <- colnames(res$Marginal_Predict)
     # colSS <- colnames(res$SubjectSpecific_Predict)
     if(requireNamespace("splines2", quietly = TRUE)){
-      Predict <- pred(K = K, nD = nD, mapping = mapping.to.LP, paras = res$coefficients,
+      Predict <- fit(K = K, nD = nD, mapping = mapping.to.LP, paras = res$coefficients,
                       m_is= data_F$m_i, Mod_MatrixY = data_F$Mod.MatrixY, df= data_F$df,
                       x = data_F$x, z = data_F$z, q = data_F$q, nb_paraD = data_F$nb_paraD, x0 = data_F$x0, z0 = data_F$z0,
                       q0 = data_F$q0, if_link = if_link, tau = data_F$tau,
@@ -170,6 +170,10 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
   # est$best : only estimates of non constraint parameters
   res$linkstype <- link
   res$linknodes <- data_F$knots
+  res$df <- data_F$df
+  res$degree <- data_F$degree
+  res$minY <- data_F$minY
+  res$maxY <- data_F$maxY
   res$nb_paraD <- data_F$nb_paraD
   res$tau = data_F$tau
   res$outcomes <- outcomes

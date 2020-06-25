@@ -1,4 +1,4 @@
-#' Marginal and subject-specific predictions for CInLPN objects
+#' Marginal predictions for CInLPN objects
 #'
 #' @param object CInLPN object
 #' @param newdata dataset
@@ -82,41 +82,41 @@ predict.CInLPN <- function(object, newdata, MCnr = 10, ...){
                        outcomes = outcomes, nD = nD, link=link, knots = knots, 
                        Time = Time, DeltaT=DeltaT)
   
-  ### calling C++ function pred to compute fitted vallues of the outcomes from newdata
+  ### calling C++ function pred to compute fitted vallues of the outcomes from new data
   if_link <- rep(0,K)
   for(k in 1:K){
     if(link[k] !="linear") if_link[k] <- 1
   }
   
   Marginal_Predict <- data_F$id_and_Time
-  SubjectSpecific_Predict <- data_F$id_and_Time
   col <- colnames(Marginal_Predict)
   if(requireNamespace("splines2", quietly = TRUE)){
+    # Predict <- pred(K = K, nD = nD, mapping = mapping.to.LP, paras = model$coefficients,
+    #                 m_is= data_F$m_i, Mod_MatrixY = data_F$Mod.MatrixY, df= data_F$df,
+    #                 x = data_F$x, z = data_F$z, q = data_F$q, nb_paraD = data_F$nb_paraD, x0 = data_F$x0, z0 = data_F$z0,
+    #                 q0 = data_F$q0, if_link = if_link, tau = data_F$tau,
+    #                 tau_is=data_F$tau_is, modA_mat = data_F$modA_mat, DeltaT=DeltaT, 
+    #                 MCnr = MCnr, model$minY, model$maxY, data_F$knots, data_F$degree, epsPred = 1.e-9)
+    
     Predict <- pred(K = K, nD = nD, mapping = mapping.to.LP, paras = model$coefficients,
-                    m_is= data_F$m_i, Mod_MatrixY = data_F$Mod.MatrixY, df= data_F$df,
+                    m_is= data_F$m_i, Mod_MatrixY = data_F$Mod.MatrixY, df= model$df,
                     x = data_F$x, z = data_F$z, q = data_F$q, nb_paraD = data_F$nb_paraD, x0 = data_F$x0, z0 = data_F$z0,
                     q0 = data_F$q0, if_link = if_link, tau = data_F$tau,
                     tau_is=data_F$tau_is, modA_mat = data_F$modA_mat, DeltaT=DeltaT, 
-                    MCnr = MCnr, data_F$minY, data_F$maxY, data_F$knots, data_F$degree, epsPred = 1.e-9)
+                    MCnr = MCnr, model$minY, model$maxY, model$linknodes, model$degree, epsPred = 1.e-9)
   }else{
     stop("Need package MASS to work, Please install it.")
   }
+  
+  
   kk <- 1
   for(k in 1: K){
-    Marginal_Predict <- cbind(Marginal_Predict,data_F$Y[,k],Predict[,kk], 
-                              (data_F$Y[,k]-Predict[,kk]),Predict[,(kk+1):(kk+3)])
+    Marginal_Predict <- cbind(Marginal_Predict, Predict[,kk], Predict[,(kk+1)])
     
-    SubjectSpecific_Predict <- cbind(SubjectSpecific_Predict,data_F$Y[,k],Predict[,(kk+4)], 
-                                     (data_F$Y[,k]-Predict[,(kk+4)]),Predict[,c((kk+1),(kk+5),(kk+6))])
-    
-    col <- c(col,outcomes[k],paste(outcomes[k], "Pred", sep="."), paste(outcomes[k], "Res", sep="."),
-             paste(outcomes[k], "tr", sep="-"), paste(outcomes[k], "tr.Pred", sep="-"),
-             paste(outcomes[k], "tr.Res", sep="-"))
-    kk <- kk+7
+    col <- c(col, paste(outcomes[k], "tr.Pred", sep="-"), paste(outcomes[k], "Pred", sep="."))
+    kk <- kk+2
   }
   colnames(Marginal_Predict) <- col
-  colnames(SubjectSpecific_Predict) <- col
   
-  ### returning fitted values
-  return(list(Marginal_Predict = Marginal_Predict, SubjectSpecific_Predict = SubjectSpecific_Predict))
+  return(Marginal_Predict)
 }

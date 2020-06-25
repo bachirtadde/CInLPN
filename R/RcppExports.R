@@ -34,6 +34,45 @@ Loglik <- function(K, nD, mapping, paraOpt, paraFixe, posfix, m_is, Mod_MatrixY,
     .Call(`_CInLPN_Loglik`, K, nD, mapping, paraOpt, paraFixe, posfix, m_is, Mod_MatrixY, Mod_MatrixYprim, df, x, z, q, nb_paraD, x0, z0, q0, if_link, tau, tau_is, modA_mat, DeltaT)
 }
 
+#' Function that computes the fits (marginal and subject-specific) for individuals. That is 
+#' observations are available and from them, fits will be compute from the model. The difference 
+#' between fits and predictions is that, for predictions there is no observation where as for 
+#' fit observations are available.
+#'  
+#' @param K an integer indicating the number of markers
+#' @param nD an integer indicating the number of latent processes
+#' @param mapping indicates which outcome measured which latent process, it is a mapping table between
+#' outcomes and latents processes
+#' @param paras values of model parameters
+#' @param m_is vector of numbers of visit occasions for individuals
+#' @param Mod_MatrixY model.matrix from markers transformation submodels
+#' @param df vector of numbers of parameters for each transformation model
+#' @param nb_paraD number of paramerters of the variance-covariance matrix of random effects
+#' @param x0 model.matrix for baseline's fixed submodel
+#' @param x model.matrix for change's fixed submodel
+#' @param z0 model.matrix for baseline's random effects submodel
+#' @param z model.matrix for change's random effects submodel
+#' @param q0 a vector of number of random effects on each initial latent process level
+#' @param q a vector of number of random effects on each change latent process over time
+#' @param if_link indicates if non linear link is used to transform an outcome
+#' @param tau a vector of integers indicating times (including maximum time)
+#' @param tau_is a vector of integers indicating times for individuals
+#' @param modA_mat model.matrix for elements of the transistion matrix
+#' @param DeltaT double that indicates the discretization step  
+#' @param MCnr an integer that indicates the number of sample for MC method  
+#' @param minY a vector of minima of outcomes
+#' @param maxY a vector of maxima of outcomes
+#' @param knots indicates position of knots used to transform outcomes
+#' @param degree indicates degree of the basis of splines
+#' @param epsPred convergence criteria for prediction using MC method
+#' 
+#' @return a matrix
+#' @export
+#' 
+fit <- function(K, nD, mapping, paras, m_is, Mod_MatrixY, df, x, z, q, nb_paraD, x0, z0, q0, if_link, tau, tau_is, modA_mat, DeltaT, MCnr, minY, maxY, knots, degree, epsPred) {
+    .Call(`_CInLPN_fit`, K, nD, mapping, paras, m_is, Mod_MatrixY, df, x, z, q, nb_paraD, x0, z0, q0, if_link, tau, tau_is, modA_mat, DeltaT, MCnr, minY, maxY, knots, degree, epsPred)
+}
+
 #' Function that computes the predictions (marginal and subject-specific) for individuals
 #'  
 #' @param K an integer indicating the number of markers
