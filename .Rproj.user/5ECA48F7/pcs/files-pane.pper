@@ -1,9 +1,9 @@
 {
-    "path" : "~/GitHub/CInLPN/src",
-    "sortOrder" : [
+    "path": "~/GitHub/CInLPN/R",
+    "sortOrder": [
         {
-            "ascending" : true,
-            "columnIndex" : 2
+            "columnIndex": 2,
+            "ascending": true
         }
     ]
 }

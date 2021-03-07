@@ -99,36 +99,50 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
     col <- colnames(res$Marginal_Predict)
     # colSS <- colnames(res$SubjectSpecific_Predict)
     if(requireNamespace("splines2", quietly = TRUE)){
-      Predict <- fit(K = K, nD = nD, mapping = mapping.to.LP, paras = res$coefficients,
+      Temp <- try(fit(K = K, nD = nD, mapping = mapping.to.LP, paras = res$coefficients,
                       m_is= data_F$m_i, Mod_MatrixY = data_F$Mod.MatrixY, df= data_F$df,
                       x = data_F$x, z = data_F$z, q = data_F$q, nb_paraD = data_F$nb_paraD, x0 = data_F$x0, z0 = data_F$z0,
                       q0 = data_F$q0, if_link = if_link, tau = data_F$tau,
                       tau_is=data_F$tau_is, modA_mat = data_F$modA_mat, DeltaT=DeltaT, 
-                      MCnr = MCnr, minY=data_F$minY, maxY=data_F$maxY, knots=data_F$knots, data_F$degree, epsPred = 1.e-9)
+                      MCnr = MCnr, minY=data_F$minY, maxY=data_F$maxY, knots=data_F$knots, data_F$degree, epsPred = 1.e-9),
+                  silent = FALSE)
+      if(inherits(Temp,'try-error')){
+        Predict <- NULL
+        cat("Error in the predictions computation \n")
+      }else{Predict <- Temp}
     }else{
-      stop("Need package MASS to work, Please install it.")
+      cat("Need package splines2 to process predictions, Please install it.")
+      Predict <- NULL
     }
-    kk <- 1
-    for(k in 1: K){
-      res$Marginal_Predict <- cbind(res$Marginal_Predict,data_F$Y[,k],Predict[,kk], 
-                                    (data_F$Y[,k]-Predict[,kk]),Predict[,(kk+1):(kk+3)])
-      
-      res$SubjectSpecific_Predict <- cbind(res$SubjectSpecific_Predict,data_F$Y[,k],Predict[,(kk+4)], 
-                                           (data_F$Y[,k]-Predict[,(kk+4)]),Predict[,c((kk+1),(kk+5),(kk+6))])
-      
-      col <- c(col,outcomes[k],paste(outcomes[k], "Pred", sep="."), paste(outcomes[k], "Res", sep="."),
-               paste(outcomes[k], "tr", sep="-"), paste(outcomes[k], "tr.Pred", sep="-"),
-               paste(outcomes[k], "tr.Res", sep="-"))
-      kk <- kk+7
+    
+    if(is.null(Predict)){ # Predictions are not computed
+      res$Marginal_Predict <- NULL
+      res$SubjectSpecific_Predict <- NULL
     }
-    colnames(res$Marginal_Predict) <- col
-    colnames(res$SubjectSpecific_Predict) <- col
+    
+    if(!is.null(Predict)){ #Predictions are  computed
+      kk <- 1
+      for(k in 1: K){
+        res$Marginal_Predict <- cbind(res$Marginal_Predict,data_F$Y[,k],Predict[,kk], 
+                                      (data_F$Y[,k]-Predict[,kk]),Predict[,(kk+1):(kk+3)])
+        
+        res$SubjectSpecific_Predict <- cbind(res$SubjectSpecific_Predict,data_F$Y[,k],Predict[,(kk+4)], 
+                                             (data_F$Y[,k]-Predict[,(kk+4)]),Predict[,c((kk+1),(kk+5),(kk+6))])
+        
+        col <- c(col,outcomes[k],paste(outcomes[k], "Pred", sep="."), paste(outcomes[k], "Res", sep="."),
+                 paste(outcomes[k], "tr", sep="-"), paste(outcomes[k], "tr.Pred", sep="-"),
+                 paste(outcomes[k], "tr.Res", sep="-"))
+        kk <- kk+7
+      }
+      colnames(res$Marginal_Predict) <- col
+      colnames(res$SubjectSpecific_Predict) <- col
+    }
     
     p.time2 <- proc.time() - ptm2
     cat("Prediction computation took:", p.time2[1], "\n")
   }
   
-  ## Compute number of parameters  per componante of the processes network
+  ## Compute number of parameters  per components of the processes network
   i1 <- 0
   res$length_para_mu0 <- length(which(res$posfix[(i1+1):(i1+ncol(data_F$x0))]==0))
   i1 <- i1 + ncol(data_F$x0)
