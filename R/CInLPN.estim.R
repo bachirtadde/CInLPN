@@ -33,7 +33,7 @@ CInLPN.estim <- function(K, nD, mapping.to.LP, data, if_link = if_link, DeltaT=1
                            x0 = data$x0, z0 = data$z0, q0 = data$q0,tau = data$tau, tau_is=data$tau_is,
                            modA_mat = data$modA_mat)
     ,silent = FALSE)
-    if(inherits(temp ,'try-error')){
+    if(inherits(temp,'try-error')){
       est <- list(istop=20, v=rep(0,length=((length(paras$paraOpt))*((length(paras$paraOpt)+1)/2))) ,
                   fn.value=100000000, b=paras$paraOpt, ca=1,cb=1,rdm=1,ier=-1)
     }else{
