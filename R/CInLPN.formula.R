@@ -367,7 +367,7 @@ CInLPN <- function(structural.model, measurement.model, parameters,
   predictors <- unlist(strsplit(predictors,"[:]")) #split by :
   predictors <- gsub("[[:space:]]","",predictors) #removing space
   predictors <- unique(predictors)
-  predictors <- predictors[!predictors %in%c("1","~")]
+  predictors <- predictors[!predictors %in%c("1","~", Time)]
   #if spline specification
   bs <- grep(pattern = "bs(*)", x = predictors)
   if(!is.null(bs)){
