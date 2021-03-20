@@ -43,7 +43,7 @@ OneOutcomeAtLeast <- function(data, subject, outcomes){
 #' function that discretized a vector of time with a given delta.
 #'
 #' @param Time input continuous time vector
-#' @param delta discretized step
+#' @param Delta discretized step
 #'
 #' @return a discretized  time vector
 #' 

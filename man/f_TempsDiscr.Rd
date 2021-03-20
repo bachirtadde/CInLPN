@@ -9,7 +9,7 @@ f_TempsDiscr(Time, Delta)
 \arguments{
 \item{Time}{input continuous time vector}
 
-\item{delta}{discretized step}
+\item{Delta}{discretized step}
 }
 \value{
 a discretized  time vector
