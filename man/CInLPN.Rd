@@ -5,7 +5,7 @@
 \title{Causal Inference in a Latent Processes Network}
 \usage{
 CInLPN(structural.model, measurement.model, parameters, option, Time,
-  subject, data, ...)
+  subject, data, DataDiscretization = TRUE, ...)
 }
 \arguments{
 \item{structural.model}{a list of 5 arguments used to specify the structural model: 
@@ -59,6 +59,8 @@ default value is NULL}}
 \item{subject}{indicates the name of the covariate representing the grouping structure}
 
 \item{data}{indicates the data frame containing all the variables for estimating the model.}
+
+\item{DataDiscretization}{a boolean indicating if the inital data have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.}
 
 \item{\dots}{other optional arguments}
 }

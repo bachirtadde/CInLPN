@@ -239,7 +239,7 @@ f_paras.ini <- function(data, outcomes, mapped.to.LP, fixed_X0.models, fixed_Del
     option = list(nproc = nproc, print.info = print.info, maxiter = maxiter)
     
     mod <- CInLPN(structural.model = structural.model, measurement.model = measurement.model, parameters = parameters,
-                  option = option, Time = Time, subject = subject, data = data)
+                  option = option, Time = Time, subject = subject, data = data,DataDiscretization = FALSE)
     L <- ncol(mod$modA_mat)
     
     ## compute number of paramter per component

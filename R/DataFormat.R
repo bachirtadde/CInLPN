@@ -236,7 +236,7 @@ DataFormat <- function(data, subject, fixed_X0.models , randoms_X0.models , fixe
   IND <- NULL
   indY <- NULL
   data0 <- NULL
-  ###cration de data0==========
+  ###creation of data0==========
   ## for x and z
   all.Y<-seq(1,K)
   for (k in 1:K)
