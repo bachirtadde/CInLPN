@@ -367,7 +367,7 @@ CInLPN <- function(structural.model, measurement.model, parameters,
   predictors <- unlist(strsplit(predictors,"[:]")) #split by :
   predictors <- gsub("[[:space:]]","",predictors) #removing space
   predictors <- unique(predictors)
-  predictors <- predictors[!predictors %in%c("1","~",Time)]
+  predictors <- predictors[!predictors %in%c("1","~")]
   if(!all(predictors %in% colnames)) stop("All explicative variables must be in the dataset")
   
   #### call of CInLPN.default function to compute estimation and predictions
