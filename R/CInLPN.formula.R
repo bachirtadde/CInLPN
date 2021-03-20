@@ -368,6 +368,12 @@ CInLPN <- function(structural.model, measurement.model, parameters,
   predictors <- gsub("[[:space:]]","",predictors) #removing space
   predictors <- unique(predictors)
   predictors <- predictors[!predictors %in%c("1","~")]
+  #if spline specification
+  bs <- grep(pattern = "bs(*)", x = predictors)
+  if(!is.null(bs)){
+    predictors <- predictors[!predictors == predictors[bs]]
+  }
+  
   if(!all(predictors %in% colnames)) stop("All explicative variables must be in the dataset")
   
   #### call of CInLPN.default function to compute estimation and predictions
