@@ -4,7 +4,8 @@
 \alias{predict.CInLPN}
 \title{Marginal predictions for CInLPN objects}
 \usage{
-\method{predict}{CInLPN}(object, newdata, MCnr = 10, ...)
+\method{predict}{CInLPN}(object, newdata, DataDiscretization = TRUE,
+  MCnr = 10, ...)
 }
 \arguments{
 \item{object}{CInLPN object}

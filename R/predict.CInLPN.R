@@ -7,7 +7,7 @@
 #'
 #' @return list of marginal and subject-specific predictions
 #' @export
-predict.CInLPN <- function(object, newdata, MCnr = 10, ...){
+predict.CInLPN <- function(object, newdata, DataDiscretization=TRUE, MCnr = 10, ...){
   model <- object
   cl <- match.call()
   if(missing(model)) stop("The argument model should be specified")
@@ -39,7 +39,9 @@ predict.CInLPN <- function(object, newdata, MCnr = 10, ...){
   # if(missing(DeltaT) || DeltaT < 0 ) stop("DeltaT of the model must not be  null or negative")
   if(!(subject%in%colnames))stop("Subject should be in the data")
   if(!(Time %in% colnames)) stop("time should be in the data")
-  if(!all(round((newdata[,Time]/DeltaT)-round(newdata[,Time]/DeltaT),8)==0.0))stop(paste("time must be a multiple of", DeltaT, sep = " "))
+  if(!DataDiscretization){ # If discretization process is external, we need to check that time is multiple of DeltaT
+    if(!all(round((newdata[,Time]/DeltaT)-round(newdata[,Time]/DeltaT),8)==0.0))stop(paste("Discretized Time must be multiple of", DeltaT, sep = " "))
+  }
   if(dim(unique(newdata))[1] != dim(newdata)[1]) stop("Some rows are the same in the dataset, perhaps because of a too large discretization step")
   
   ### pre-processing of data
@@ -76,7 +78,20 @@ predict.CInLPN <- function(object, newdata, MCnr = 10, ...){
   #### pre-processing of  mod_trans transition matrix 
   mod_trans.model=strsplit(gsub("[[:space:]]","",as.character(mod_trans)),"~")[[2]]
   
-  data_F <- DataFormat(data=newdata, subject = subject, fixed_X0.models = fixed_X0.models,
+  #### predictors
+  predictors <- model$predictors
+  if(!all(predictors %in% colnames)) stop("All explicative variables must be in the dataset")
+  ################### discretization of the data with discretization value given by the user ##########################
+  #
+  if(DataDiscretization){
+    data <- DataDiscretization(rdata=newdata, subject = subject, outcomes = outcomes, predictors = predictors, 
+                               Time = Time, Delta = DeltaT)
+  }else{
+    data <- newdata
+  }
+  
+  ################### created formatted data ##########################
+  data_F <- DataFormat(data=data, subject = subject, fixed_X0.models = fixed_X0.models,
                        randoms_X0.models = randoms_X0.models, fixed_DeltaX.models = fixed_DeltaX.models, 
                        randoms_DeltaX.models = randoms_DeltaX.models, mod_trans.model = mod_trans.model, 
                        outcomes = outcomes, nD = nD, link=link, knots = knots, 

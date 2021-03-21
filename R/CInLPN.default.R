@@ -44,7 +44,7 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
   # rdata stand for row data. It is the data in continuous time before discretization.
   # after discretization, the obtained data is named data. Which is the input for the next steps of the package
   
-  ################### discretization of the data with discretisation step given by the user ##########################
+  ################### discretization of the data with discretisation value given by the user ##########################
   #
   if(DataDiscretization){
   data <- DataDiscretization(rdata=rdata, subject = subject, outcomes = outcomes, predictors = predictors, 
@@ -88,7 +88,7 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
                       epsd = epsd, print.info = print.info)
   
   res <- list(conv = est$istop, v = est$v, best = est$b, ca = est$ca, cb = est$cb, rdm = est$rdm, 
-              niter = est$iter, coefficients = est$coefficients, posfix = est$posfix)
+              niter = est$ier, coefficients = est$coefficients, posfix = est$posfix)
   
   #   # fitted value and correlation matrix
   #   m <- length(data$tau)
@@ -191,6 +191,8 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
   res$N <- data_F$nb_obs
   res$nD <- data_F$nD
   res$K <- data_F$K
+  res$Markers <- outcomes
+  res$Predictors <- predictors
   # est$best : only estimates of non constraint parameters
   res$linkstype <- link
   res$linknodes <- data_F$knots
