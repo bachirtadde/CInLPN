@@ -4,14 +4,14 @@
 \alias{fit.CInLPN}
 \title{Marginal and subject-specific predictions on the training data for a CInLPN object}
 \usage{
-fit.CInLPN(object, newdata, DataDiscretization = TRUE, MCnr = 10, ...)
+fit.CInLPN(object, newdata, TimeDiscretization = TRUE, MCnr = 10, ...)
 }
 \arguments{
 \item{object}{CInLPN object}
 
 \item{newdata}{dataset}
 
-\item{DataDiscretization}{a boolean indicating if the inital data have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.}
+\item{TimeDiscretization}{a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.}
 
 \item{MCnr}{an integer that gives the number of Monte Carlo iterations}
 

@@ -10,7 +10,7 @@ CInLPN.default(fixed_X0.models, fixed_DeltaX.models, randoms_X0.models,
   MCnr, paras.ini = NULL, indexparaFixeUser, paraFixeUser, maxiter,
   univarmaxiter, nproc = 1, epsa = 1e-04, epsb = 1e-04,
   epsd = 0.001, print.info = FALSE,
-  DataDiscretization = DataDiscretization, ...)
+  TimeDiscretization = TimeDiscretization, ...)
 }
 \arguments{
 \item{fixed_X0.models}{fixed effects in the submodel for the baseline level of processes}
@@ -71,7 +71,7 @@ outcomes and latents processes}
 
 \item{print.info}{to print information during the liklihood optimization, default value is FALSE}
 
-\item{DataDiscretization}{a boolean indicating if the inital data have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.}
+\item{TimeDiscretization}{a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.}
 
 \item{\dots}{optional parameters}
 }

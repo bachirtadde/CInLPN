@@ -31,14 +31,14 @@
 #' @param epsb threshold for the convergence criterion on the likelihood, default value is 1.e-4
 #' @param epsd threshold for the convergence criterion on the derivatives, default value is 1.e-3
 #' @param print.info  to print information during the liklihood optimization, default value is FALSE 
-#' @param DataDiscretization a boolean indicating if the inital data have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.
+#' @param TimeDiscretization a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.
 #' @param \dots optional parameters
 #'
 #' @return CInLPN object
 CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.models, randoms_DeltaX.models, mod_trans.model, 
                            DeltaT, outcomes, predictors, nD, mapping.to.LP, link, knots=NULL, subject, rdata, Time,
                            makepred, MCnr, paras.ini= NULL, indexparaFixeUser, paraFixeUser, maxiter, univarmaxiter, nproc = 1, 
-                           epsa =0.0001, epsb = 0.0001, epsd= 0.001, print.info = FALSE, DataDiscretization = DataDiscretization,...)
+                           epsa =0.0001, epsb = 0.0001, epsd= 0.001, print.info = FALSE, TimeDiscretization = TimeDiscretization,...)
 {
   cl <- match.call()
   # rdata stand for row data. It is the data in continuous time before discretization.
@@ -46,8 +46,8 @@ CInLPN.default <- function(fixed_X0.models, fixed_DeltaX.models, randoms_X0.mode
   
   ################### discretization of the data with discretisation value given by the user ##########################
   #
-  if(DataDiscretization){
-  data <- DataDiscretization(rdata=rdata, subject = subject, outcomes = outcomes, predictors = predictors, 
+  if(TimeDiscretization){
+  data <- TimeDiscretization(rdata=rdata, subject = subject, outcomes = outcomes, predictors = predictors, 
                              Time = Time, Delta = DeltaT)
   }else{
     data <- rdata

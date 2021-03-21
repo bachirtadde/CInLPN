@@ -62,7 +62,7 @@
 #' @param Time indicates the name of the covariate representing the time 
 #' @param subject indicates the name of the covariate representing the grouping structure
 #' @param data indicates the data frame containing all the variables for estimating the model.
-#' @param DataDiscretization a boolean indicating if the inital data have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.
+#' @param TimeDiscretization a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.
 #' @param  \dots other optional arguments
 #' 
 #' @return ---
@@ -179,7 +179,7 @@
 
 
 CInLPN <- function(structural.model, measurement.model, parameters, 
-                   option, Time, subject, data, DataDiscretization=TRUE,...){
+                   option, Time, subject, data, TimeDiscretization=TRUE,...){
   cl <- match.call()
   ptm <- proc.time()  
   cat("Be patient, CInLPN is running ... \n")
@@ -269,7 +269,7 @@ CInLPN <- function(structural.model, measurement.model, parameters,
   # if(missing(DeltaT) || DeltaT < 0 ) stop("The discretization step DeltaT cannot be null or negative")
   if(!(subject%in%colnames))stop("Subject should be in the dataset")
   if(!(Time %in% colnames)) stop("Time variable should be indicated and should be in the dataset")
-  if(!DataDiscretization){ # If discretization process is external, we need to check that time is multiple of DeltaT
+  if(!TimeDiscretization){ # If discretization process is external, we need to check that time is multiple of DeltaT
     if(!all(round((data[,Time]/DeltaT)-round(data[,Time]/DeltaT),8)==0.0))stop(paste("Discretized Time must be multiple of", DeltaT, sep = " "))
   }
   if(dim(unique(data))[1] != dim(data)[1]) stop("Some rows are the same in the dataset, perhaps because of a too large discretisation step")
@@ -382,7 +382,7 @@ CInLPN <- function(structural.model, measurement.model, parameters,
                         predictors = predictors, nD = nD, mapping.to.LP = mapping.to.LP, link = link, knots = knots, subject = subject, rdata = data, Time = Time, 
                         makepred = option$makepred, MCnr = option$MCnr, paras.ini= paras.ini, paraFixeUser = paraFixeUser, indexparaFixeUser = indexparaFixeUser,  
                         maxiter = maxiter, univarmaxiter = univarmaxiter, nproc = nproc, epsa = epsa, epsb = epsb, epsd = epsd, 
-                        print.info = print.info, DataDiscretization = DataDiscretization)
+                        print.info = print.info, TimeDiscretization = TimeDiscretization)
   est$call <- match.call()
   est$formula <- list(fixed_X0.models=fixed_X0.models, fixed_DeltaX.models = fixed_DeltaX.models, 
                       randoms_X0.models=randoms_X0.models, randoms_DeltaX.models=randoms_DeltaX.models, 

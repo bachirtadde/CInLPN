@@ -73,12 +73,12 @@ f_TempsDiscr <- function(Time, Delta){
 #' @param outcomes a vector of outcomes names
 #' @param predictors independent variables  to be be included in the modeling
 #' @param subject subject identifiant
-#' @param Time colname indiquating the time
+#' @param Time colname indicating the time
 #' @param Delta discretized time step 
 #'
 #' @return a discretized  time vector
 #' 
-DataDiscretization <-function(rdata, subject, outcomes, predictors = NULL, Time, Delta){
+TimeDiscretization <-function(rdata, subject, outcomes, predictors = NULL, Time, Delta){
   
   cl <- match.call()
   colnames<-colnames(rdata)
