@@ -370,7 +370,7 @@ CInLPN <- function(structural.model, measurement.model, parameters,
   predictors <- predictors[!predictors %in%c("1","~", Time)]
   #if spline specification
   bs <- grep(pattern = "bs(*)", x = predictors)
-  if(!is.null(bs)){
+  if(length(bs)!=0){
     predictors <- predictors[!predictors == predictors[bs]]
   }
   
