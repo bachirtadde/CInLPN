@@ -3,6 +3,7 @@
 #' @param object CInLPN object
 #' @param newdata dataset
 #' @param MCnr an integer that gives the number of Monte Carlo iterations
+#' @param TimeDiscretization a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.
 #' @param \dots optional parameters
 #'
 #' @return list of marginal and subject-specific predictions

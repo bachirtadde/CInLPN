@@ -12,6 +12,8 @@
 
 \item{newdata}{dataset}
 
+\item{TimeDiscretization}{a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.}
+
 \item{MCnr}{an integer that gives the number of Monte Carlo iterations}
 
 \item{\dots}{optional parameters}
