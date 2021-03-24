@@ -1,10 +1,10 @@
 [
     {
         "file": "D:/Documents/GitHub/CInLPN/src/Estimation.cpp",
-        "file_last_write": 1567932125.0,
+        "file_last_write": 1616570711.0,
         "definitions": [
             {
-                "usr": "c:@F@Loglikei#I#I#$@N@arma@C@Mat>#d#I#$@N@arma@C@Col>#d#S1_#S0_#S0_#S0_#S0_#S0_#S0_#S1_#S1_#S0_#S0_#S0_#S0_#S0_#S0_#S0_#d#",
+                "usr": "c:@F@Loglikei#I#I#$@N@arma@S@Mat>#d#I#$@N@arma@S@Col>#d#S1_#S0_#S0_#S0_#S0_#S0_#S0_#S1_#S1_#S0_#S0_#S0_#S0_#S0_#S0_#S0_#d#",
                 "kind": 6,
                 "parent_name": "",
                 "name": "Loglikei(int, int, arma::mat, int, arma::vec, arma::vec, arma::mat, arma::mat, arma::mat, arma::mat, arma::mat, arma::mat, arma::colvec, arma::colvec, arma::mat, arma::mat, arma::mat, arma::mat, arma::mat, arma::mat, arma::mat, double)",
@@ -13,7 +13,7 @@
                 "column": 8
             },
             {
-                "usr": "c:@F@Loglik#I#I#&$@N@arma@C@Col>#d#S0_#S0_#S0_#S0_#&$@N@arma@C@Mat>#d#S2_#S0_#S2_#S2_#S0_#I#S2_#S2_#S0_#S1_#S0_#S0_#S2_#d#",
+                "usr": "c:@F@Loglik#I#I#&$@N@arma@S@Col>#d#S0_#S0_#S0_#S0_#&$@N@arma@S@Mat>#d#S2_#S0_#S2_#S2_#S0_#I#S2_#S2_#S0_#S1_#S0_#S0_#S2_#d#",
                 "kind": 6,
                 "parent_name": "",
                 "name": "Loglik(int, int, arma::vec &, arma::vec &, arma::vec &, arma::vec &, arma::vec &, arma::mat &, arma::mat &, arma::vec &, arma::mat &, arma::mat &, arma::vec &, int, arma::mat &, arma::mat &, arma::vec &, arma::vec, arma::vec &, arma::vec &, arma::mat &, double)",
@@ -25,10 +25,10 @@
     },
     {
         "file": "D:/Documents/GitHub/CInLPN/src/FitQuality.cpp",
-        "file_last_write": 1567932181.0,
+        "file_last_write": 1616570711.0,
         "definitions": [
             {
-                "usr": "c:@F@autocorri#I#$@N@arma@C@Col>#d#$@N@arma@C@Mat>#d#S1_#S1_#S1_#S1_#S1_#S1_#S1_#d#",
+                "usr": "c:@F@autocorri#I#$@N@arma@S@Col>#d#$@N@arma@S@Mat>#d#S1_#S1_#S1_#S1_#S1_#S1_#S1_#d#",
                 "kind": 6,
                 "parent_name": "",
                 "name": "autocorri(int, arma::vec, arma::mat, arma::mat, arma::mat, arma::mat, arma::mat, arma::mat, arma::mat, arma::mat, double)",
@@ -37,7 +37,7 @@
                 "column": 11
             },
             {
-                "usr": "c:@F@autocorr#I#$@N@arma@C@Col>#d#S0_#S0_#I#I#$@N@arma@C@Mat>#d#S0_#I#S1_#S0_#S0_#S1_#d#",
+                "usr": "c:@F@autocorr#I#$@N@arma@S@Col>#d#S0_#S0_#I#I#$@N@arma@S@Mat>#d#S0_#I#S1_#S0_#S0_#S1_#d#",
                 "kind": 6,
                 "parent_name": "",
                 "name": "autocorr(int, arma::vec, arma::vec, arma::vec, int, int, arma::mat, arma::vec, int, arma::mat, arma::vec, arma::vec, arma::mat, double)",
@@ -49,7 +49,7 @@
     },
     {
         "file": "D:/Documents/GitHub/CInLPN/src/Fits.cpp",
-        "file_last_write": 1591739428.0,
+        "file_last_write": 1616570711.0,
         "definitions": [
             {
                 "usr": "c:@F@fit_i#I#I#$@N@arma@S@Mat>#d#I#$@N@arma@S@Col>#d#S1_#S0_#S0_#S0_#S0_#S0_#S1_#S1_#S0_#S0_#S0_#S0_#&S0_#S2_#d#S2_#S2_#S1_#S1_#S1_#S1_#S1_#&I#S1_#I#d#",
@@ -73,7 +73,7 @@
     },
     {
         "file": "D:/Documents/GitHub/CInLPN/src/Predictions.cpp",
-        "file_last_write": 1615151279.0,
+        "file_last_write": 1616570711.0,
         "definitions": [
             {
                 "usr": "c:@F@predi#I#I#$@N@arma@S@Mat>#d#I#$@N@arma@S@Col>#d#S1_#S0_#S0_#S0_#S0_#S1_#S1_#S0_#S0_#S0_#S0_#&S0_#S2_#d#S1_#S1_#S1_#S1_#S1_#&I#S1_#I#d#",
@@ -97,8 +97,198 @@
     },
     {
         "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
-        "file_last_write": 1595188001.0,
-        "definitions": []
+        "file_last_write": 1616570711.0,
+        "definitions": [
+            {
+                "usr": "c:@F@f_mat_print#&$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "f_mat_print(arma::mat &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 14,
+                "column": 5
+            },
+            {
+                "usr": "c:@F@f_inv_mat#&$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "f_inv_mat(arma::mat &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 35,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@vectorise#&$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "vectorise(arma::mat &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 65,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@InnerProd#$@N@arma@S@Col>#d#S0_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "InnerProd(arma::vec, arma::vec)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 80,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@KmatDiag#&$@N@arma@S@Col>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "KmatDiag(arma::vec &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 99,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@DparChol#I#&$@N@arma@S@Col>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "DparChol(int, arma::vec &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 118,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@aijt#I#$@N@arma@S@Col>#d#$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "aijt(int, arma::vec, arma::mat)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 140,
+                "column": 8
+            },
+            {
+                "usr": "c:@F@vecaijt#I#I#&$@N@arma@S@Col>#d#&$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "vecaijt(int, int, arma::vec &, arma::mat &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 161,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@ConstrA#I#I#d#&$@N@arma@S@Col>#d#&$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "ConstrA(int, int, double, arma::vec &, arma::mat &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 190,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@GmatA0totaui#I#&$@N@arma@S@Col>#d#S0_#d#$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GmatA0totaui(int, arma::vec &, arma::vec &, double, arma::mat)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 220,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@ProdA#I#I#I#d#&$@N@arma@S@Col>#d#&$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "ProdA(int, int, int, double, arma::vec &, arma::mat &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 246,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@GmatprodAstotau#I#&$@N@arma@S@Col>#d#S0_#I#d#$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "GmatprodAstotau(int, arma::vec &, arma::vec &, int, double, arma::mat)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 273,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@tsGmatprodA0totau#I#&$@N@arma@S@Col>#d#S0_#d#$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "tsGmatprodA0totau(int, arma::vec &, arma::vec &, double, arma::mat)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 300,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@matHit#$@N@arma@S@Col>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "matHit(arma::vec)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 318,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@compoYiNA#&$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "compoYiNA(arma::mat &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 353,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@YiwoNA#$@N@arma@S@Col>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "YiwoNA(arma::vec)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 378,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@matNui#I#&$@N@arma@S@Col>#d#d#&$@N@arma@S@Mat>#d#S0_#S2_#S0_#S2_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "matNui(int, arma::vec &, double, arma::mat &, arma::colvec &, arma::mat &, arma::colvec &, arma::mat &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 418,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@f_Yi_r_NA_by0#&$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "f_Yi_r_NA_by0(arma::mat &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 459,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@YiNui#I#$@N@arma@S@Mat>#d#&$@N@arma@S@Col>#d#S1_#d#&S0_#S3_#S1_#S3_#S1_#S3_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "YiNui(int, arma::mat, arma::vec &, arma::vec &, double, arma::mat &, arma::mat &, arma::colvec &, arma::mat &, arma::colvec &, arma::mat &)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 505,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@mvnorm#I#$@N@arma@S@Col>#d#$@N@arma@S@Mat>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "mvnorm(int, arma::vec, arma::mat)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 572,
+                "column": 11
+            },
+            {
+                "usr": "c:@F@VecToMat#&$@N@arma@S@Col>#d#I#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "VecToMat(arma::vec &, int, int)",
+                "file": "D:/Documents/GitHub/CInLPN/src/genericfun.cpp",
+                "line": 603,
+                "column": 11
+            }
+        ]
     },
     {
         "file": "D:/Documents/GitHub/CInLPN/src/genericfun.h",
