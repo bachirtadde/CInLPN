@@ -2,14 +2,16 @@
 % Please edit documentation in R/fit.CInLPN.R
 \name{fit.CInLPN}
 \alias{fit.CInLPN}
-\title{Marginal and subject-specific predictions for CInLPN objects}
+\title{Marginal and subject-specific predictions on the training data for a CInLPN object}
 \usage{
-fit.CInLPN(object, newdata, MCnr = 10, ...)
+fit.CInLPN(object, newdata, TimeDiscretization = TRUE, MCnr = 10, ...)
 }
 \arguments{
 \item{object}{CInLPN object}
 
 \item{newdata}{dataset}
+
+\item{TimeDiscretization}{a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.}
 
 \item{MCnr}{an integer that gives the number of Monte Carlo iterations}
 
@@ -19,5 +21,5 @@ fit.CInLPN(object, newdata, MCnr = 10, ...)
 list of marginal and subject-specific predictions
 }
 \description{
-Marginal and subject-specific predictions for CInLPN objects
+Marginal and subject-specific predictions on the training data for a CInLPN object
 }

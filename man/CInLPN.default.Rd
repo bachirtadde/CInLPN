@@ -5,11 +5,12 @@
 \title{Function that start estimation and prediction tasks}
 \usage{
 CInLPN.default(fixed_X0.models, fixed_DeltaX.models, randoms_X0.models,
-  randoms_DeltaX.models, mod_trans.model, DeltaT, outcomes, nD,
-  mapping.to.LP, link, knots = NULL, subject, data, Time, makepred, MCnr,
-  paras.ini = NULL, indexparaFixeUser, paraFixeUser, maxiter,
+  randoms_DeltaX.models, mod_trans.model, DeltaT, outcomes, predictors, nD,
+  mapping.to.LP, link, knots = NULL, subject, rdata, Time, makepred,
+  MCnr, paras.ini = NULL, indexparaFixeUser, paraFixeUser, maxiter,
   univarmaxiter, nproc = 1, epsa = 1e-04, epsb = 1e-04,
-  epsd = 0.001, print.info = FALSE, ...)
+  epsd = 0.001, print.info = FALSE,
+  TimeDiscretization = TimeDiscretization, ...)
 }
 \arguments{
 \item{fixed_X0.models}{fixed effects in the submodel for the baseline level of processes}
@@ -29,6 +30,8 @@ the temporal influences between latent processes}
 
 \item{outcomes}{indicates names of the outcomes}
 
+\item{predictors}{all explicative variables of the model}
+
 \item{nD}{number of the latent processes}
 
 \item{mapping.to.LP}{indicates which outcome measured which latent process, it is a mapping table between
@@ -40,7 +43,7 @@ outcomes and latents processes}
 
 \item{subject}{indicates the name of the covariate representing the grouping structure}
 
-\item{data}{indicates the data frame containing all the variables for estimating the model}
+\item{rdata}{indicates the row data frame containing all the variables to estimate the model}
 
 \item{Time}{indicates the name of the covariate representing the time}
 
@@ -67,6 +70,8 @@ outcomes and latents processes}
 \item{epsd}{threshold for the convergence criterion on the derivatives, default value is 1.e-3}
 
 \item{print.info}{to print information during the liklihood optimization, default value is FALSE}
+
+\item{TimeDiscretization}{a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.}
 
 \item{\dots}{optional parameters}
 }

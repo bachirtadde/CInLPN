@@ -62,7 +62,9 @@
 #' @param Time indicates the name of the covariate representing the time 
 #' @param subject indicates the name of the covariate representing the grouping structure
 #' @param data indicates the data frame containing all the variables for estimating the model.
+#' @param TimeDiscretization a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.
 #' @param  \dots other optional arguments
+#' 
 #' @return ---
 #' @export
 #'
@@ -85,7 +87,7 @@
 #'               
 #'               parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
 #'                                 Fixed.para.values = paraFixeUser),
-#'               option = list(nproc = 1, print.info = TRUE, mekepred = TRUE, MCnr = 10, 
+#'               option = list(nproc = 1, print.info = TRUE, makepred = TRUE, MCnr = 10, 
 #'                             univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
 #'               Time = "time",
 #'               subject = "id",
@@ -115,7 +117,7 @@
 #'              
 #'              parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
 #'                                Fixed.para.values = paraFixeUser),
-#'              option = list(nproc = 2, print.info = TRUE, mekepred = TRUE, MCnr = 10, 
+#'              option = list(nproc = 2, print.info = TRUE, makepred = TRUE, MCnr = 10, 
 #'                            univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
 #'              Time = "time",
 #'              subject = "id",
@@ -142,7 +144,7 @@
 #'                                                           knots = list(NULL, NULL, NULL))),
 #'            parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
 #'                              Fixed.para.values = paraFixeUser),
-#'            option = list(nproc = 1, print.info = FALSE, mekepred = TRUE, MCnr = 10, 
+#'            option = list(nproc = 1, print.info = FALSE, makepred = TRUE, MCnr = 10, 
 #'                          univarmaxiter = 7, epsa = 1e-5, epsb = 1e-5, epsd = 1e-5),
 #'            Time = "time",
 #'            subject = "id",
@@ -166,7 +168,7 @@
 #'          
 #'          parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
 #'                            Fixed.para.values = paraFixeUser),
-#'          option = list(nproc = 2, print.info = TRUE, mekepred = TRUE, MCnr = 10, 
+#'          option = list(nproc = 2, print.info = TRUE, makepred = TRUE, MCnr = 10, 
 #'                        univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
 #'          Time = "time",
 #'          subject = "id",
@@ -177,7 +179,7 @@
 
 
 CInLPN <- function(structural.model, measurement.model, parameters, 
-                   option, Time, subject, data,...){
+                   option, Time, subject, data, TimeDiscretization=TRUE,...){
   cl <- match.call()
   ptm <- proc.time()  
   cat("Be patient, CInLPN is running ... \n")
@@ -267,7 +269,9 @@ CInLPN <- function(structural.model, measurement.model, parameters,
   # if(missing(DeltaT) || DeltaT < 0 ) stop("The discretization step DeltaT cannot be null or negative")
   if(!(subject%in%colnames))stop("Subject should be in the dataset")
   if(!(Time %in% colnames)) stop("Time variable should be indicated and should be in the dataset")
-  if(!all(round((data[,Time]/DeltaT)-round(data[,Time]/DeltaT),8)==0.0))stop(paste("Time must be multiple of", DeltaT, sep = " "))
+  if(!TimeDiscretization){ # If discretization process is external, we need to check that time is multiple of DeltaT
+    if(!all(round((data[,Time]/DeltaT)-round(data[,Time]/DeltaT),8)==0.0))stop(paste("Discretized Time must be multiple of", DeltaT, sep = " "))
+  }
   if(dim(unique(data))[1] != dim(data)[1]) stop("Some rows are the same in the dataset, perhaps because of a too large discretisation step")
   
   
@@ -344,19 +348,41 @@ CInLPN <- function(structural.model, measurement.model, parameters,
     stop("The number of models for the change over time of latent processes does not correspond with the number of latent processes")
   }
   
-  ### traitement of transformation models ##
+  ### processing of transformation models ##
   if(is.null(link)){
     link <- rep("linear",K)
   }
   else if(length(link)!=K) stop("The number transformation links must be equal to the number of markers")
   
+  ### Identification of all predictors of the model
+  predictors <- unique(c(unlist(fixed_X0.models), 
+                         unlist(fixed_DeltaX.models),
+                         unlist(as.character(randoms_DeltaX)),
+                         unlist(mod_trans.model))
+  )
+  
+  predictors <- unlist(strsplit(predictors,"[|]")) #split by |
+  predictors <- unlist(strsplit(predictors,"[+]")) #split by +
+  predictors <- unlist(strsplit(predictors,"[*]")) #split by *
+  predictors <- unlist(strsplit(predictors,"[:]")) #split by :
+  predictors <- gsub("[[:space:]]","",predictors) #removing space
+  predictors <- unique(predictors)
+  predictors <- predictors[!predictors %in%c("1","~", Time)]
+  #if spline specification
+  bs <- grep(pattern = "bs(*)", x = predictors)
+  if(length(bs)!=0){
+    predictors <- predictors[!predictors == predictors[bs]]
+  }
+  
+  if(!all(predictors %in% colnames)) stop("All explicative variables must be in the dataset")
+  
   #### call of CInLPN.default function to compute estimation and predictions
   est <- CInLPN.default(fixed_X0.models = fixed_X0.models, fixed_DeltaX.models = fixed_DeltaX.models, randoms_X0.models = randoms_X0.models, 
                         randoms_DeltaX.models = randoms_DeltaX.models, mod_trans.model = mod_trans.model, DeltaT = DeltaT , outcomes = outcomes,
-                        nD = nD, mapping.to.LP = mapping.to.LP, link = link, knots = knots, subject = subject, data = data, Time = Time, 
+                        predictors = predictors, nD = nD, mapping.to.LP = mapping.to.LP, link = link, knots = knots, subject = subject, rdata = data, Time = Time, 
                         makepred = option$makepred, MCnr = option$MCnr, paras.ini= paras.ini, paraFixeUser = paraFixeUser, indexparaFixeUser = indexparaFixeUser,  
                         maxiter = maxiter, univarmaxiter = univarmaxiter, nproc = nproc, epsa = epsa, epsb = epsb, epsd = epsd, 
-                        print.info = print.info)
+                        print.info = print.info, TimeDiscretization = TimeDiscretization)
   est$call <- match.call()
   est$formula <- list(fixed_X0.models=fixed_X0.models, fixed_DeltaX.models = fixed_DeltaX.models, 
                       randoms_X0.models=randoms_X0.models, randoms_DeltaX.models=randoms_DeltaX.models, 
