@@ -5,7 +5,7 @@
 \title{Causal Inference in a Latent Processes Network}
 \usage{
 CInLPN(structural.model, measurement.model, parameters, option, Time,
-  subject, data, ...)
+  subject, data, TimeDiscretization = TRUE, ...)
 }
 \arguments{
 \item{structural.model}{a list of 5 arguments used to specify the structural model: 
@@ -60,6 +60,8 @@ default value is NULL}}
 
 \item{data}{indicates the data frame containing all the variables for estimating the model.}
 
+\item{TimeDiscretization}{a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.}
+
 \item{\dots}{other optional arguments}
 }
 \value{
@@ -99,7 +101,7 @@ mod1 <- CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C2 | 1 + C2,
               
               parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
                                 Fixed.para.values = paraFixeUser),
-              option = list(nproc = 1, print.info = TRUE, mekepred = TRUE, MCnr = 10, 
+              option = list(nproc = 1, print.info = TRUE, makepred = TRUE, MCnr = 10, 
                             univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
               Time = "time",
               subject = "id",
@@ -129,7 +131,7 @@ mod2 <- CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C2 | 1 + C2,
              
              parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
                                Fixed.para.values = paraFixeUser),
-             option = list(nproc = 2, print.info = TRUE, mekepred = TRUE, MCnr = 10, 
+             option = list(nproc = 2, print.info = TRUE, makepred = TRUE, MCnr = 10, 
                            univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
              Time = "time",
              subject = "id",
@@ -155,7 +157,7 @@ mod <-  CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C1 + C2|1 + C1 + C2,
                                                           knots = list(NULL, NULL, NULL))),
            parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
                              Fixed.para.values = paraFixeUser),
-           option = list(nproc = 1, print.info = FALSE, mekepred = TRUE, MCnr = 10, 
+           option = list(nproc = 1, print.info = FALSE, makepred = TRUE, MCnr = 10, 
                          univarmaxiter = 7, epsa = 1e-5, epsb = 1e-5, epsd = 1e-5),
            Time = "time",
            subject = "id",
@@ -179,7 +181,7 @@ res <- CInLPN(structural.model = list(fixed.LP0 = ~ 1 + C2 | 1 + C2,
          
          parameters = list(paras.ini = paras.ini, Fixed.para.index = indexparaFixeUser, 
                            Fixed.para.values = paraFixeUser),
-         option = list(nproc = 2, print.info = TRUE, mekepred = TRUE, MCnr = 10, 
+         option = list(nproc = 2, print.info = TRUE, makepred = TRUE, MCnr = 10, 
                        univarmaxiter = 7, epsa = 1e-5, epsb = 1e-4, epsd = 1e-2),
          Time = "time",
          subject = "id",

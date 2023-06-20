@@ -4,12 +4,15 @@
 \alias{predict.CInLPN}
 \title{Marginal predictions for CInLPN objects}
 \usage{
-\method{predict}{CInLPN}(object, newdata, MCnr = 10, ...)
+\method{predict}{CInLPN}(object, newdata, TimeDiscretization = TRUE,
+  MCnr = 10, ...)
 }
 \arguments{
 \item{object}{CInLPN object}
 
 \item{newdata}{dataset}
+
+\item{TimeDiscretization}{a boolean indicating if the inital time have to be discretized. When setting to FALSE, It allows to avoid discretization when running univarite model during parameter initialization.}
 
 \item{MCnr}{an integer that gives the number of Monte Carlo iterations}
 
